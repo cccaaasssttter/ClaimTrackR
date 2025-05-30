@@ -33,6 +33,9 @@ function Router() {
               <Route path="/" component={Dashboard} />
               <Route path="/projects">
                 <div className="p-6">
+                  <div className="bg-blue-500 text-white p-4 rounded mb-4">
+                    DEBUG: Projects page is loading
+                  </div>
                   <ProjectList />
                 </div>
               </Route>

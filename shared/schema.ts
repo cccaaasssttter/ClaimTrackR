@@ -36,6 +36,14 @@ export const claims = pgTable("claims", {
   gst: decimal("gst", { precision: 12, scale: 2 }).notNull().default("0.00"),
   totalIncGst: decimal("total_inc_gst", { precision: 12, scale: 2 }).notNull().default("0.00"),
   description: text("description"),
+  // Missing fields causing TypeScript errors
+  percentComplete: decimal("percent_complete", { precision: 5, scale: 2 }).notNull().default("0.00"),
+  previousClaim: decimal("previous_claim", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  thisClaim: decimal("this_claim", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  retentionHeld: decimal("retention_held", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  amountDue: decimal("amount_due", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  periodFrom: timestamp("period_from"),
+  periodTo: timestamp("period_to"),
   createdBy: uuid("created_by").notNull().references(() => users.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
@@ -61,6 +69,7 @@ export const variations = pgTable("variations", {
   quantity: decimal("quantity", { precision: 10, scale: 2 }).notNull().default("0.00"),
   rate: decimal("rate", { precision: 12, scale: 2 }).notNull().default("0.00"),
   variationValue: decimal("variation_value", { precision: 12, scale: 2 }).notNull(),
+  amount: decimal("amount", { precision: 12, scale: 2 }).notNull().default("0.00"),
   subtotal: decimal("subtotal", { precision: 12, scale: 2 }).notNull().default("0.00"),
   status: text("status").notNull().default("pending"), // pending, approved, rejected
   createdAt: timestamp("created_at").defaultNow().notNull(),
