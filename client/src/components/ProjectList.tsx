@@ -291,8 +291,8 @@ export const ProjectList: React.FC = () => {
                         defaultValue="practical_completion"
                         className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                       >
-                        <option value="practical_completion">Practical Completion</option>
-                        <option value="final_completion">Final Completion</option>
+                        <option value="practical_completion">Our PC</option>
+                        <option value="final_completion">Builders PC</option>
                       </select>
                     </div>
                     <div>
@@ -439,8 +439,8 @@ export const ProjectList: React.FC = () => {
                         defaultValue={editingProject.firstReleaseEvent || 'practical_completion'}
                         className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                       >
-                        <option value="practical_completion">Practical Completion</option>
-                        <option value="final_completion">Final Completion</option>
+                        <option value="practical_completion">Our PC</option>
+                        <option value="final_completion">Builders PC</option>
                       </select>
                     </div>
                     <div>
