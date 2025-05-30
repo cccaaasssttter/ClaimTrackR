@@ -11,6 +11,7 @@ import Dashboard from "@/pages/dashboard";
 import Login from "@/pages/login";
 import ProjectDetail from "@/pages/project-detail";
 import ClaimDetail from "@/pages/claim-detail";
+import Settings from "@/pages/settings";
 import NotFound from "@/pages/not-found";
 
 // Projects page component
@@ -118,6 +119,14 @@ function App() {
             <Route path="/projects" component={ProjectsPage} />
             <Route path="/claims" component={ClaimsPage} />
             <Route path="/reports" component={ReportsPage} />
+            <Route path="/settings" component={() => (
+              <div className="flex min-h-screen bg-gray-50">
+                <Sidebar />
+                <main className="flex-1 ml-64">
+                  <Settings />
+                </main>
+              </div>
+            )} />
             <Route path="/project/:id" component={ProjectDetail} />
             <Route path="/project/:projectId/claim/:claimId" component={ClaimDetail} />
             <Route path="/" component={DashboardWithLayout} />

@@ -5,6 +5,7 @@ import postgres from "postgres";
 import { eq, desc, and } from "drizzle-orm";
 import { 
   users, 
+  userSettings,
   projects, 
   claims, 
   claimItems,
@@ -12,12 +13,14 @@ import {
   credits,
   attachments,
   insertProjectSchema,
+  insertUserSettingsSchema,
   insertClaimSchema,
   insertClaimItemSchema,
   insertVariationSchema,
   insertCreditSchema,
   insertAttachmentSchema,
   type Project,
+  type UserSettings,
   type Claim,
   type ClaimItem,
   type Variation,

@@ -11,6 +11,7 @@ export const Sidebar: React.FC = () => {
     { path: '/projects', label: 'Projects', icon: 'fas fa-folder' },
     { path: '/claims', label: 'Claims', icon: 'fas fa-file-invoice' },
     { path: '/reports', label: 'Reports', icon: 'fas fa-chart-bar' },
+    { path: '/settings', label: 'Settings', icon: 'fas fa-cog' },
   ];
 
   const handleSignOut = async () => {
