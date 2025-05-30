@@ -32,9 +32,13 @@ function Router() {
             <Switch>
               <Route path="/" component={Dashboard} />
               <Route path="/projects">
-                <div className="p-6">
-                  <div className="bg-blue-500 text-white p-4 rounded mb-4">
-                    DEBUG: Projects page is loading
+                <div className="p-6 bg-yellow-200 min-h-screen">
+                  <h1 className="text-4xl font-bold text-black mb-4">PROJECTS PAGE TEST</h1>
+                  <div className="bg-red-500 text-white p-8 rounded mb-4">
+                    <p className="text-2xl">If you can see this, routing is working!</p>
+                  </div>
+                  <div className="bg-green-500 text-white p-4 rounded">
+                    <p>Testing ProjectList component below:</p>
                   </div>
                   <ProjectList />
                 </div>
