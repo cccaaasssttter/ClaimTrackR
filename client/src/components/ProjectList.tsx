@@ -76,10 +76,7 @@ export const ProjectList: React.FC = () => {
       id: editingProject.id,
       name: formData.get('name'),
       description: formData.get('description'),
-      clientName: formData.get('clientName'),
       totalValue: formData.get('totalValue'),
-      startDate: formData.get('startDate'),
-      endDate: formData.get('endDate'),
       gstRate: formData.get('gstRate') || '10.00',
       retentionRate: formData.get('retentionRate') || '5.00',
       status: formData.get('status') || 'active'
@@ -137,59 +134,51 @@ export const ProjectList: React.FC = () => {
           <div className="space-y-4">
             {projects?.map((project) => (
               <div key={project.id} className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between">
-                  <Link href={`/project/${project.id}`} className="block flex-1">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center">
-                          <h4 className="text-lg font-medium text-gray-900">{project.name}</h4>
-                          <span className="ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                            {project.status}
-                          </span>
-                        </div>
-                        {project.description && (
-                          <p className="mt-1 text-sm text-gray-600">{project.description}</p>
-                        )}
-                        
-                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-4 gap-4">
-                          <div>
-                            <p className="text-xs text-gray-500">Total Value</p>
-                            <p className="text-sm font-semibold text-gray-900">${parseFloat(project.totalValue).toLocaleString()}</p>
-                          </div>
-                          <div>
-                            <p className="text-xs text-gray-500">GST Rate</p>
-                            <p className="text-sm font-semibold text-gray-900">{project.gstRate}%</p>
-                          </div>
-                          <div>
-                            <p className="text-xs text-gray-500">Retention</p>
-                            <p className="text-sm font-semibold text-gray-900">{project.retentionRate}%</p>
-                          </div>
-                          <div>
-                            <p className="text-xs text-gray-500">Created</p>
-                            <p className="text-sm font-semibold text-gray-900">
-                              {new Date(project.createdAt).toLocaleDateString()}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="ml-6 flex items-center">
-                        <i className="fas fa-chevron-right text-gray-400"></i>
-                      </div>
-                    </div>
-                  </Link>
-                  
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center">
+                    <h4 className="text-lg font-medium text-gray-900">{project.name}</h4>
+                    <span className="ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      {project.status}
+                    </span>
+                  </div>
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setEditingProject(project);
-                    }}
-                    className="ml-4 p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                    title="Edit project"
+                    onClick={() => setEditingProject(project)}
+                    className="px-3 py-1 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-md border border-blue-200"
                   >
-                    <i className="fas fa-edit"></i>
+                    Edit
                   </button>
                 </div>
+                
+                <Link href={`/project/${project.id}`} className="block">
+                  {project.description && (
+                    <p className="text-sm text-gray-600 mb-4">{project.description}</p>
+                  )}
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                    <div>
+                      <p className="text-xs text-gray-500">Total Value</p>
+                      <p className="text-sm font-semibold text-gray-900">${parseFloat(project.totalValue).toLocaleString()}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">GST Rate</p>
+                      <p className="text-sm font-semibold text-gray-900">{project.gstRate}%</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Retention</p>
+                      <p className="text-sm font-semibold text-gray-900">{project.retentionRate}%</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Created</p>
+                      <p className="text-sm font-semibold text-gray-900">
+                        {new Date(project.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 flex items-center text-blue-600">
+                    <span className="text-sm">View project details →</span>
+                  </div>
+                </Link>
               </div>
             ))}
           </div>
@@ -297,15 +286,7 @@ export const ProjectList: React.FC = () => {
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Client Name</label>
-                  <input 
-                    name="clientName" 
-                    type="text" 
-                    defaultValue={editingProject.clientName || ''}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Contract Value</label>
                   <input 
