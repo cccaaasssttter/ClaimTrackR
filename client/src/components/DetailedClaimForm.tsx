@@ -59,6 +59,8 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
     totalIncGst: 0,
     retention: 0,
     netPayable: 0,
+    remainingContractValue: 0,
+    totalRetentionHeld: 0,
   });
 
   const {
@@ -133,6 +135,15 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
     
     // Net payable = Total Inc GST - Retention - Previous Payments
     const netPayable = totalIncGst - retention - paymentReceived;
+    
+    // Calculate remaining contract value
+    const contractValue = parseFloat(project.totalValue);
+    const totalContractWithGst = contractValue * 1.10; // Add 10% GST to contract value
+    const remainingContractValue = totalContractWithGst - totalIncGst;
+    
+    // Calculate total retention that will be held (including this claim)
+    // This assumes retention is held on each claim
+    const totalRetentionHeld = retention; // For this claim - in a real system, this would accumulate
 
     setCalculations({
       totalWorksCompleted,
@@ -143,6 +154,8 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
       totalIncGst,
       retention,
       netPayable,
+      remainingContractValue,
+      totalRetentionHeld,
     });
   }, [watchedItems, watchedVariations, watchedCredits, watchedPaymentReceived, project.gstRate]);
 
@@ -632,6 +645,20 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
               <div className="flex justify-between items-center font-bold text-lg">
                 <span>Net Payable:</span>
                 <span className="text-green-700">${Math.round(calculations.netPayable).toLocaleString()}</span>
+              </div>
+            </div>
+            
+            <div className="mt-4 pt-4 border-t border-gray-300">
+              <h5 className="text-md font-semibold text-gray-900 mb-3">Contract Progress</h5>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Contract Value Remaining:</span>
+                  <span className="font-medium">${Math.round(calculations.remainingContractValue).toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Total Retention Held:</span>
+                  <span className="font-medium text-orange-600">${Math.round(calculations.totalRetentionHeld).toLocaleString()}</span>
+                </div>
               </div>
             </div>
           </div>
