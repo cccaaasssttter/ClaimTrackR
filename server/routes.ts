@@ -104,23 +104,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/projects", async (req, res) => {
     try {
+      console.log("Received project data:", req.body);
       const validatedData = insertProjectSchema.parse(req.body);
-      
-      // In a real app, get this from authenticated user
-      const projectData = {
-        ...validatedData,
-        createdBy: "00000000-0000-0000-0000-000000000000", // Mock user ID
-      };
+      console.log("Validated data:", validatedData);
       
       const [newProject] = await db
         .insert(projects)
-        .values(projectData)
+        .values(validatedData)
         .returning();
       
+      console.log("Created project:", newProject);
       res.status(201).json(newProject);
     } catch (error) {
       console.error("Error creating project:", error);
-      res.status(400).json({ message: "Invalid project data" });
+      res.status(400).json({ message: "Invalid project data", error: error.message });
     }
   });
 
