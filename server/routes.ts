@@ -1,0 +1,237 @@
+import type { Express } from "express";
+import { createServer, type Server } from "http";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+import { eq, desc, and } from "drizzle-orm";
+import { 
+  users, 
+  projects, 
+  claims, 
+  variations, 
+  attachments,
+  insertProjectSchema,
+  insertClaimSchema,
+  insertVariationSchema,
+  insertAttachmentSchema,
+  type Project,
+  type Claim,
+  type Variation,
+  type Attachment
+} from "@shared/schema";
+
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error("DATABASE_URL environment variable is required");
+}
+
+const client = postgres(connectionString);
+const db = drizzle(client);
+
+export async function registerRoutes(app: Express): Promise<Server> {
+  // Projects routes
+  app.get("/api/projects", async (req, res) => {
+    try {
+      // In a real app, this would filter by the authenticated user
+      const userProjects = await db
+        .select()
+        .from(projects)
+        .orderBy(desc(projects.createdAt));
+      
+      res.json(userProjects);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+      res.status(500).json({ message: "Failed to fetch projects" });
+    }
+  });
+
+  app.get("/api/projects/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const project = await db
+        .select()
+        .from(projects)
+        .where(eq(projects.id, id))
+        .limit(1);
+      
+      if (project.length === 0) {
+        return res.status(404).json({ message: "Project not found" });
+      }
+      
+      res.json(project[0]);
+    } catch (error) {
+      console.error("Error fetching project:", error);
+      res.status(500).json({ message: "Failed to fetch project" });
+    }
+  });
+
+  app.post("/api/projects", async (req, res) => {
+    try {
+      const validatedData = insertProjectSchema.parse(req.body);
+      
+      // In a real app, get this from authenticated user
+      const projectData = {
+        ...validatedData,
+        createdBy: "00000000-0000-0000-0000-000000000000", // Mock user ID
+      };
+      
+      const [newProject] = await db
+        .insert(projects)
+        .values(projectData)
+        .returning();
+      
+      res.status(201).json(newProject);
+    } catch (error) {
+      console.error("Error creating project:", error);
+      res.status(400).json({ message: "Invalid project data" });
+    }
+  });
+
+  // Claims routes
+  app.get("/api/projects/:projectId/claims", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const projectClaims = await db
+        .select()
+        .from(claims)
+        .where(eq(claims.projectId, projectId))
+        .orderBy(desc(claims.createdAt));
+      
+      res.json(projectClaims);
+    } catch (error) {
+      console.error("Error fetching claims:", error);
+      res.status(500).json({ message: "Failed to fetch claims" });
+    }
+  });
+
+  app.get("/api/claims/recent", async (req, res) => {
+    try {
+      const recentClaims = await db
+        .select()
+        .from(claims)
+        .orderBy(desc(claims.createdAt))
+        .limit(10);
+      
+      res.json(recentClaims);
+    } catch (error) {
+      console.error("Error fetching recent claims:", error);
+      res.status(500).json({ message: "Failed to fetch recent claims" });
+    }
+  });
+
+  app.get("/api/claims/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const claim = await db
+        .select()
+        .from(claims)
+        .where(eq(claims.id, id))
+        .limit(1);
+      
+      if (claim.length === 0) {
+        return res.status(404).json({ message: "Claim not found" });
+      }
+      
+      res.json(claim[0]);
+    } catch (error) {
+      console.error("Error fetching claim:", error);
+      res.status(500).json({ message: "Failed to fetch claim" });
+    }
+  });
+
+  app.post("/api/claims", async (req, res) => {
+    try {
+      const validatedData = insertClaimSchema.parse(req.body);
+      
+      // In a real app, get this from authenticated user
+      const claimData = {
+        ...validatedData,
+        createdBy: "00000000-0000-0000-0000-000000000000", // Mock user ID
+      };
+      
+      const [newClaim] = await db
+        .insert(claims)
+        .values(claimData)
+        .returning();
+      
+      res.status(201).json(newClaim);
+    } catch (error) {
+      console.error("Error creating claim:", error);
+      res.status(400).json({ message: "Invalid claim data" });
+    }
+  });
+
+  // Variations routes
+  app.get("/api/claims/:claimId/variations", async (req, res) => {
+    try {
+      const { claimId } = req.params;
+      const claimVariations = await db
+        .select()
+        .from(variations)
+        .where(eq(variations.claimId, claimId))
+        .orderBy(desc(variations.createdAt));
+      
+      res.json(claimVariations);
+    } catch (error) {
+      console.error("Error fetching variations:", error);
+      res.status(500).json({ message: "Failed to fetch variations" });
+    }
+  });
+
+  app.post("/api/variations", async (req, res) => {
+    try {
+      const validatedData = insertVariationSchema.parse(req.body);
+      
+      const [newVariation] = await db
+        .insert(variations)
+        .values(validatedData)
+        .returning();
+      
+      res.status(201).json(newVariation);
+    } catch (error) {
+      console.error("Error creating variation:", error);
+      res.status(400).json({ message: "Invalid variation data" });
+    }
+  });
+
+  // Attachments routes
+  app.get("/api/claims/:claimId/attachments", async (req, res) => {
+    try {
+      const { claimId } = req.params;
+      const claimAttachments = await db
+        .select()
+        .from(attachments)
+        .where(eq(attachments.claimId, claimId))
+        .orderBy(desc(attachments.createdAt));
+      
+      res.json(claimAttachments);
+    } catch (error) {
+      console.error("Error fetching attachments:", error);
+      res.status(500).json({ message: "Failed to fetch attachments" });
+    }
+  });
+
+  app.post("/api/attachments", async (req, res) => {
+    try {
+      const validatedData = insertAttachmentSchema.parse(req.body);
+      
+      // In a real app, get this from authenticated user
+      const attachmentData = {
+        ...validatedData,
+        uploadedBy: "00000000-0000-0000-0000-000000000000", // Mock user ID
+      };
+      
+      const [newAttachment] = await db
+        .insert(attachments)
+        .values(attachmentData)
+        .returning();
+      
+      res.status(201).json(newAttachment);
+    } catch (error) {
+      console.error("Error creating attachment:", error);
+      res.status(400).json({ message: "Invalid attachment data" });
+    }
+  });
+
+  const httpServer = createServer(app);
+  return httpServer;
+}
