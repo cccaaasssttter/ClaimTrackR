@@ -6,18 +6,22 @@ import { UserSettings, InsertUserSettings } from '@shared/schema';
 export default function Settings() {
   const [isEditing, setIsEditing] = useState(false);
 
-  const { data: settings, isLoading } = useQuery({
+  const { data: settings, isLoading } = useQuery<UserSettings | null>({
     queryKey: ['/api/user-settings'],
-    queryFn: () => apiRequest('/api/user-settings')
+    queryFn: () => apiRequest('/api/user-settings'),
   });
 
   const updateSettingsMutation = useMutation({
-    mutationFn: async (data: InsertUserSettings) => {
-      return apiRequest('/api/user-settings', {
+    mutationFn: async (data: Omit<InsertUserSettings, 'userId'>) => {
+      const response = await fetch('/api/user-settings', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
+      if (!response.ok) {
+        throw new Error('Failed to update settings');
+      }
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/user-settings'] });
@@ -29,11 +33,11 @@ export default function Settings() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const settingsData = {
-      companyName: formData.get('companyName'),
-      contactPerson: formData.get('contactPerson'),
-      companyAddress: formData.get('companyAddress'),
-      email: formData.get('email'),
-      mobile: formData.get('mobile')
+      companyName: (formData.get('companyName') as string) || null,
+      contactPerson: (formData.get('contactPerson') as string) || null,
+      companyAddress: (formData.get('companyAddress') as string) || null,
+      email: (formData.get('email') as string) || null,
+      mobile: (formData.get('mobile') as string) || null
     };
     updateSettingsMutation.mutate(settingsData);
   };

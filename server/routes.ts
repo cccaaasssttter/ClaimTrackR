@@ -195,6 +195,68 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // User Settings routes
+  app.get("/api/user-settings", async (req, res) => {
+    try {
+      // For now, using a hardcoded user ID - in a real app this would come from authentication
+      const userId = '550e8400-e29b-41d4-a716-446655440000';
+      
+      const settings = await db
+        .select()
+        .from(userSettings)
+        .where(eq(userSettings.userId, userId))
+        .limit(1);
+      
+      res.json(settings[0] || null);
+    } catch (error) {
+      console.error("Error fetching user settings:", error);
+      res.status(500).json({ message: "Failed to fetch user settings" });
+    }
+  });
+
+  app.put("/api/user-settings", async (req, res) => {
+    try {
+      // For now, using a hardcoded user ID - in a real app this would come from authentication
+      const userId = '550e8400-e29b-41d4-a716-446655440000';
+      
+      const validatedData = insertUserSettingsSchema.parse({
+        ...req.body,
+        userId
+      });
+      
+      // Check if settings exist
+      const existingSettings = await db
+        .select()
+        .from(userSettings)
+        .where(eq(userSettings.userId, userId))
+        .limit(1);
+      
+      let updatedSettings;
+      if (existingSettings.length > 0) {
+        // Update existing settings
+        [updatedSettings] = await db
+          .update(userSettings)
+          .set({
+            ...validatedData,
+            updatedAt: new Date()
+          })
+          .where(eq(userSettings.userId, userId))
+          .returning();
+      } else {
+        // Create new settings
+        [updatedSettings] = await db
+          .insert(userSettings)
+          .values(validatedData)
+          .returning();
+      }
+      
+      res.json(updatedSettings);
+    } catch (error) {
+      console.error("Error updating user settings:", error);
+      res.status(500).json({ message: "Failed to update user settings" });
+    }
+  });
+
   // Claims routes
   app.get("/api/projects/:projectId/claims", async (req, res) => {
     try {
