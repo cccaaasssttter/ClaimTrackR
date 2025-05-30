@@ -294,6 +294,27 @@ export const ProjectList: React.FC = () => {
                     </div>
                   </div>
                   
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                      <input 
+                        name="contractorPhone" 
+                        type="text" 
+                        placeholder="(03) 9555 1234"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                      <input 
+                        name="contractorEmail" 
+                        type="email" 
+                        placeholder="contact@rplcon.com.au"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+                  
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Address</label>
                     <textarea 

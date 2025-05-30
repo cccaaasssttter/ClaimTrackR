@@ -29,12 +29,14 @@ export const projects = pgTable("projects", {
   name: text("name").notNull(),
   clientName: text("client_name"),
   contactPerson: text("contact_person"),
-  contractorAddress: text("contractor_address"),
   subcontractReference: text("subcontract_reference"),
   
   // Contractor Details (Payer)
   contractorName: text("contractor_name"),
   contractorContactPerson: text("contractor_contact_person"),
+  contractorPhone: text("contractor_phone"),
+  contractorEmail: text("contractor_email"),
+  contractorAddress: text("contractor_address"),
   
   // Project Details
   siteAddress: text("site_address"),
