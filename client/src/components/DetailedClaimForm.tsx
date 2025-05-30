@@ -266,14 +266,7 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
               />
             </div>
 
-            <div>
-              <Label htmlFor="contactPerson">Contact Person</Label>
-              <Input
-                id="contactPerson"
-                {...register('contactPerson')}
-                placeholder="Project Manager Name"
-              />
-            </div>
+
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -379,6 +372,25 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
                     );
                   })}
                 </tbody>
+                <tfoot>
+                  <tr className="border-t-2 border-gray-300 bg-gray-100">
+                    <td className="py-3 px-2 font-bold text-gray-900">Total Contract Value:</td>
+                    <td className="py-3 px-2 text-right font-bold text-gray-900">
+                      ${watchedItems?.reduce((total, item) => {
+                        return total + parseFloat(item?.contractValue || '0');
+                      }, 0).toLocaleString('en-US', { minimumFractionDigits: 0 })}
+                    </td>
+                    <td className="py-3 px-2"></td>
+                    <td className="py-3 px-2 text-right font-bold text-gray-900">
+                      ${watchedItems?.reduce((total, item) => {
+                        const contractValue = parseFloat(item?.contractValue || '0');
+                        const percentComplete = parseFloat(item?.percentComplete || '0');
+                        return total + (contractValue * percentComplete / 100);
+                      }, 0).toLocaleString('en-US', { minimumFractionDigits: 0 })}
+                    </td>
+                    <td className="py-3 px-2"></td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </div>
