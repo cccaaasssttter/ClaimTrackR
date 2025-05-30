@@ -602,7 +602,7 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
                   <div className="mt-3 pt-3 border-t border-gray-200">
                     <div className="flex justify-between font-medium">
                       <span>Total Credits/Deductions:</span>
-                      <span className="text-red-600">${Math.round(calculations.totalCredits).toLocaleString()}</span>
+                      <span className="text-red-600">${Math.round(watchedCredits?.reduce((sum, credit) => sum + parseFloat(credit.amount || '0'), 0) || 0).toLocaleString()}</span>
                     </div>
                   </div>
                 )}
