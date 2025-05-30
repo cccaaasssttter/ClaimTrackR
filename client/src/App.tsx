@@ -32,17 +32,27 @@ function Router() {
               </header>
               <Switch>
                 <Route path="/" component={Dashboard} />
-                <Route path="/projects">
+                <Route path="/projects" component={() => (
                   <div className="p-6">
                     <h2 className="text-2xl font-bold text-gray-900 mb-4">Projects</h2>
                     <div className="bg-blue-100 p-4 rounded mb-4">
-                      <p>Projects page is loading...</p>
+                      <p>Projects page loaded successfully!</p>
                     </div>
                     <ProjectList />
                   </div>
-                </Route>
-                <Route path="/claims" component={() => <div className="p-6"><ProjectList /></div>} />
-                <Route path="/reports" component={() => <div className="p-6"><h2 className="text-2xl font-bold text-gray-900">Reports</h2><p className="text-gray-500 mt-2">Reports functionality coming soon</p></div>} />
+                )} />
+                <Route path="/claims" component={() => (
+                  <div className="p-6">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-4">Claims</h2>
+                    <ProjectList />
+                  </div>
+                )} />
+                <Route path="/reports" component={() => (
+                  <div className="p-6">
+                    <h2 className="text-2xl font-bold text-gray-900">Reports</h2>
+                    <p className="text-gray-500 mt-2">Reports functionality coming soon</p>
+                  </div>
+                )} />
                 <Route path="/project/:id" component={ProjectDetail} />
                 <Route path="/project/:projectId/claim/:claimId" component={ClaimDetail} />
                 <Route component={NotFound} />
