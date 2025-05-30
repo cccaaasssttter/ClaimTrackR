@@ -117,7 +117,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(201).json(newProject);
     } catch (error) {
       console.error("Error creating project:", error);
-      res.status(400).json({ message: "Invalid project data", error: error.message });
+      res.status(400).json({ message: "Invalid project data", error: error instanceof Error ? error.message : String(error) });
+    }
+  });
+
+  app.patch("/api/projects/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log("Updating project:", id, req.body);
+      
+      // Create a partial schema that omits the id field
+      const updateSchema = insertProjectSchema.partial();
+      const validatedData = updateSchema.parse(req.body);
+      console.log("Validated update data:", validatedData);
+      
+      const [updatedProject] = await db
+        .update(projects)
+        .set(validatedData)
+        .where(eq(projects.id, id))
+        .returning();
+      
+      if (!updatedProject) {
+        return res.status(404).json({ message: "Project not found" });
+      }
+      
+      console.log("Updated project:", updatedProject);
+      res.json(updatedProject);
+    } catch (error) {
+      console.error("Error updating project:", error);
+      res.status(400).json({ message: "Invalid project data", error: error instanceof Error ? error.message : String(error) });
     }
   });
 

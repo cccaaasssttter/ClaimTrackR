@@ -86,7 +86,6 @@ export const ProjectList: React.FC = () => {
       gstRate: formData.get('gstRate') || '10.00',
       retentionRate: formData.get('retentionRate') || '5.00',
       retentionPerClaim: formData.get('retentionPerClaim') || '5.00',
-      retentionCollectionUntil: formData.get('retentionCollectionUntil') || '50.00',
       firstReleaseEvent: formData.get('firstReleaseEvent') || 'practical_completion',
       firstReleasePercentage: formData.get('firstReleasePercentage') || '50.00',
       dlpPeriodMonths: formData.get('dlpPeriodMonths') || '12',
