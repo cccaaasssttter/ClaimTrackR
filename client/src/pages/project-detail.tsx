@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'wouter';
+import { useParams, useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { ClaimList } from '@/components/ClaimList';
 import { DetailedClaimForm } from '@/components/DetailedClaimForm';
@@ -8,6 +8,7 @@ import { type Project } from '@shared/schema';
 
 export default function ProjectDetail() {
   const params = useParams<{ id: string }>();
+  const [, setLocation] = useLocation();
   const [showClaimForm, setShowClaimForm] = useState(false);
 
   const { data: project, isLoading } = useQuery<Project>({
@@ -49,9 +50,20 @@ export default function ProjectDetail() {
       <div className="p-6">
         <div className="mb-8">
           <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">{project.name}</h2>
-              <p className="text-gray-500 mt-1">{project.description}</p>
+            <div className="flex items-center">
+              <button 
+                onClick={() => setLocation('/projects')}
+                className="mr-4 p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                title="Back to projects"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">{project.name}</h2>
+                <p className="text-gray-500 mt-1">{project.description}</p>
+              </div>
             </div>
             <div className="flex items-center space-x-4">
               <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
