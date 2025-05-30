@@ -52,7 +52,12 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({ onClose }) => {
   });
 
   const onSubmit = (data: InsertProject) => {
-    createProjectMutation.mutate(data);
+    // Add the required createdBy field
+    const projectData = {
+      ...data,
+      createdBy: '550e8400-e29b-41d4-a716-446655440000' // Temporary user ID
+    };
+    createProjectMutation.mutate(projectData);
   };
 
   return (
