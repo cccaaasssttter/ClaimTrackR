@@ -82,13 +82,6 @@ export const ProjectList: React.FC = () => {
             <h2 className="text-2xl font-bold text-gray-900">Projects</h2>
             <p className="text-sm text-gray-500 mt-1">Manage your progress claims and project financials</p>
           </div>
-          <button 
-            onClick={() => setShowProjectForm(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"
-          >
-            <i className="fas fa-plus mr-2"></i>
-            New Project
-          </button>
         </div>
 
         {projects && projects.length === 0 ? (
