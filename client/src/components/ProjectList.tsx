@@ -74,19 +74,16 @@ export const ProjectList: React.FC = () => {
       subcontractReference: formData.get('subcontractReference'),
       contractorName: formData.get('contractorName'),
       contractorContactPerson: formData.get('contractorContactPerson'),
+      contractorPhone: formData.get('contractorPhone'),
+      contractorEmail: formData.get('contractorEmail'),
       contractorAddress: formData.get('contractorAddress'),
-      subcontractorName: formData.get('subcontractorName'),
-      subcontractorContactPerson: formData.get('subcontractorContactPerson'),
-      subcontractorAddress: formData.get('subcontractorAddress'),
-      subcontractorEmail: formData.get('subcontractorEmail'),
-      subcontractorMobile: formData.get('subcontractorMobile'),
       totalValue: formData.get('totalValue'),
-      gstRate: formData.get('gstRate') || '10.00',
+      gstRate: '10.00',
       retentionRate: formData.get('retentionRate') || '5.00',
       retentionPerClaim: formData.get('retentionPerClaim') || '5.00',
       firstReleaseEvent: formData.get('firstReleaseEvent') || 'practical_completion',
       firstReleasePercentage: formData.get('firstReleasePercentage') || '50.00',
-      dlpPeriodMonths: formData.get('dlpPeriodMonths') || '12',
+      dlpPeriodMonths: parseInt(formData.get('dlpPeriodMonths') as string) || 12,
       finalReleasePercentage: formData.get('finalReleasePercentage') || '50.00',
       status: 'active',
       createdBy: '550e8400-e29b-41d4-a716-446655440000'
@@ -346,16 +343,7 @@ export const ProjectList: React.FC = () => {
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   ></textarea>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">GST Rate (%)</label>
-                  <input 
-                    name="gstRate" 
-                    type="number" 
-                    step="0.01"
-                    defaultValue="10.00"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
+
 
                 <div className="border-t pt-4 mt-4">
                   <h4 className="text-lg font-medium text-gray-900 mb-3">Retention Settings</h4>
@@ -517,6 +505,27 @@ export const ProjectList: React.FC = () => {
                     </div>
                   </div>
                   
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                      <input 
+                        name="contractorPhone" 
+                        type="text" 
+                        defaultValue={editingProject.contractorPhone || ''}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                      <input 
+                        name="contractorEmail" 
+                        type="email" 
+                        defaultValue={editingProject.contractorEmail || ''}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+                  
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Address</label>
                     <textarea 
@@ -549,16 +558,7 @@ export const ProjectList: React.FC = () => {
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   ></textarea>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">GST Rate (%)</label>
-                  <input 
-                    name="gstRate" 
-                    type="number" 
-                    step="0.01"
-                    defaultValue={editingProject.gstRate}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
+
 
                 <div className="border-t pt-4 mt-4">
                   <h4 className="text-lg font-medium text-gray-900 mb-3">Retention Settings</h4>
