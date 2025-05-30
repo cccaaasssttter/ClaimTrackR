@@ -12,10 +12,20 @@ export default function ClaimDetail() {
 
   const { data: claim, isLoading } = useQuery<Claim>({
     queryKey: ['/api/claims', params.claimId],
+    queryFn: async () => {
+      const res = await fetch(`/api/claims/${params.claimId}`);
+      if (!res.ok) throw new Error('Failed to load claim');
+      return res.json();
+    },
   });
 
   const { data: attachments } = useQuery<Attachment[]>({
     queryKey: ['/api/claims', params.claimId, 'attachments'],
+    queryFn: async () => {
+      const res = await fetch(`/api/claims/${params.claimId}/attachments`);
+      if (!res.ok) throw new Error('Failed to load attachments');
+      return res.json();
+    },
   });
 
   if (isLoading) {

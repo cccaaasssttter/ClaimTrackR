@@ -15,18 +15,47 @@ import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
-    <div className="min-h-screen bg-red-100 p-8">
-      <h1 className="text-4xl font-bold text-red-900 mb-4">ClaimTrackR Test</h1>
-      <div className="bg-white p-6 rounded shadow">
-        <p className="text-lg">This is a test page to verify the app is loading.</p>
-        <p className="mt-2">If you can see this, React is working!</p>
-        <div className="mt-4 space-y-2">
-          <div className="bg-blue-100 p-2 rounded">Dashboard should work</div>
-          <div className="bg-green-100 p-2 rounded">Projects should work</div>
-          <div className="bg-yellow-100 p-2 rounded">Claims should work</div>
+    <Switch>
+      <Route path="/login" component={Login} />
+      <Route path="/">
+        <div className="flex min-h-screen bg-gray-50">
+          <Sidebar />
+          <main className="flex-1 ml-64">
+            <header className="bg-white border-b border-gray-200 px-6 py-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">ClaimTrackR</h2>
+                  <p className="text-sm text-gray-500 mt-1">Progress Claim Management System</p>
+                </div>
+              </div>
+            </header>
+            <Switch>
+              <Route path="/" component={Dashboard} />
+              <Route path="/projects">
+                <div className="p-6">
+                  <ProjectList />
+                </div>
+              </Route>
+              <Route path="/claims">
+                <div className="p-6">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Claims</h2>
+                  <ProjectList />
+                </div>
+              </Route>
+              <Route path="/reports">
+                <div className="p-6">
+                  <h2 className="text-2xl font-bold text-gray-900">Reports</h2>
+                  <p className="text-gray-500 mt-2">Reports functionality coming soon</p>
+                </div>
+              </Route>
+              <Route path="/project/:id" component={ProjectDetail} />
+              <Route path="/project/:projectId/claim/:claimId" component={ClaimDetail} />
+              <Route component={NotFound} />
+            </Switch>
+          </main>
         </div>
-      </div>
-    </div>
+      </Route>
+    </Switch>
   );
 }
 

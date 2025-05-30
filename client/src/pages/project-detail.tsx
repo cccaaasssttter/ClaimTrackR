@@ -12,6 +12,11 @@ export default function ProjectDetail() {
 
   const { data: project, isLoading } = useQuery<Project>({
     queryKey: ['/api/projects', params.id],
+    queryFn: async () => {
+      const res = await fetch(`/api/projects/${params.id}`);
+      if (!res.ok) throw new Error('Failed to load project');
+      return res.json();
+    },
   });
 
   if (isLoading) {
