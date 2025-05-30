@@ -32,7 +32,12 @@ function Router() {
               </header>
               <Switch>
                 <Route path="/" component={Dashboard} />
-                <Route path="/projects" component={() => <div className="p-6"><ProjectList /></div>} />
+                <Route path="/projects">
+                  <div className="p-6">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-4">Projects</h2>
+                    <ProjectList />
+                  </div>
+                </Route>
                 <Route path="/claims" component={() => <div className="p-6"><ProjectList /></div>} />
                 <Route path="/reports" component={() => <div className="p-6"><h2 className="text-2xl font-bold text-gray-900">Reports</h2><p className="text-gray-500 mt-2">Reports functionality coming soon</p></div>} />
                 <Route path="/project/:id" component={ProjectDetail} />
