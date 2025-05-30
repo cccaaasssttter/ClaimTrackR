@@ -305,61 +305,7 @@ export const ProjectList: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="border-t pt-4 mt-4">
-                  <h4 className="text-lg font-medium text-gray-900 mb-3">Subcontractor Details (Payee)</h4>
-                  
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Subcontractor Name</label>
-                      <input 
-                        name="subcontractorName" 
-                        type="text" 
-                        placeholder="LB Concrete Solutions"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Contact Person</label>
-                      <input 
-                        name="subcontractorContactPerson" 
-                        type="text" 
-                        placeholder="Ben Castelluccio"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                      <input 
-                        name="subcontractorEmail" 
-                        type="email" 
-                        placeholder="ben@casterconstruction.com.au"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Mobile</label>
-                      <input 
-                        name="subcontractorMobile" 
-                        type="text" 
-                        placeholder="0431 746 563"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Subcontractor Address</label>
-                    <textarea 
-                      name="subcontractorAddress" 
-                      rows={2}
-                      placeholder="2 Disney Ave, Keilor East Vic 3033"
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                    ></textarea>
-                  </div>
-                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Contract Value</label>
                   <input 
@@ -561,61 +507,7 @@ export const ProjectList: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="border-t pt-4 mt-4">
-                  <h4 className="text-lg font-medium text-gray-900 mb-3">Subcontractor Details (Payee)</h4>
-                  
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Subcontractor Name</label>
-                      <input 
-                        name="subcontractorName" 
-                        type="text" 
-                        defaultValue={editingProject.subcontractorName || ''}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Contact Person</label>
-                      <input 
-                        name="subcontractorContactPerson" 
-                        type="text" 
-                        defaultValue={editingProject.subcontractorContactPerson || ''}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                      <input 
-                        name="subcontractorEmail" 
-                        type="email" 
-                        defaultValue={editingProject.subcontractorEmail || ''}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Mobile</label>
-                      <input 
-                        name="subcontractorMobile" 
-                        type="text" 
-                        defaultValue={editingProject.subcontractorMobile || ''}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Subcontractor Address</label>
-                    <textarea 
-                      name="subcontractorAddress" 
-                      rows={2}
-                      defaultValue={editingProject.subcontractorAddress || ''}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                    ></textarea>
-                  </div>
-                </div>
+
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Contract Value</label>

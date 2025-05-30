@@ -9,6 +9,21 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const userSettings = pgTable("user_settings", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: uuid("user_id").notNull().references(() => users.id),
+  
+  // Company Details (used as Subcontractor/Payee on claims)
+  companyName: text("company_name"),
+  contactPerson: text("contact_person"),
+  companyAddress: text("company_address"),
+  email: text("email"),
+  mobile: text("mobile"),
+  
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 export const projects = pgTable("projects", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
@@ -20,13 +35,6 @@ export const projects = pgTable("projects", {
   // Contractor Details (Payer)
   contractorName: text("contractor_name"),
   contractorContactPerson: text("contractor_contact_person"),
-  
-  // Subcontractor Details (Payee) 
-  subcontractorName: text("subcontractor_name"),
-  subcontractorContactPerson: text("subcontractor_contact_person"),
-  subcontractorAddress: text("subcontractor_address"),
-  subcontractorEmail: text("subcontractor_email"),
-  subcontractorMobile: text("subcontractor_mobile"),
   
   // Project Details
   siteAddress: text("site_address"),
@@ -129,6 +137,12 @@ export const insertUserSchema = createInsertSchema(users).omit({
   createdAt: true,
 });
 
+export const insertUserSettingsSchema = createInsertSchema(userSettings).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 export const insertProjectSchema = createInsertSchema(projects).omit({
   id: true,
   createdAt: true,
@@ -162,6 +176,8 @@ export const insertAttachmentSchema = createInsertSchema(attachments).omit({
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
+export type UserSettings = typeof userSettings.$inferSelect;
+export type InsertUserSettings = z.infer<typeof insertUserSettingsSchema>;
 export type Project = typeof projects.$inferSelect;
 export type InsertProject = z.infer<typeof insertProjectSchema>;
 export type Claim = typeof claims.$inferSelect;
