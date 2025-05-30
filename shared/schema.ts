@@ -16,6 +16,21 @@ export const projects = pgTable("projects", {
   contactPerson: text("contact_person"),
   contractorAddress: text("contractor_address"),
   subcontractReference: text("subcontract_reference"),
+  
+  // Contractor Details (Payer)
+  contractorName: text("contractor_name"),
+  contractorContactPerson: text("contractor_contact_person"),
+  
+  // Subcontractor Details (Payee) 
+  subcontractorName: text("subcontractor_name"),
+  subcontractorContactPerson: text("subcontractor_contact_person"),
+  subcontractorAddress: text("subcontractor_address"),
+  subcontractorEmail: text("subcontractor_email"),
+  subcontractorMobile: text("subcontractor_mobile"),
+  
+  // Project Details
+  siteAddress: text("site_address"),
+  
   description: text("description"),
   totalValue: decimal("total_value", { precision: 12, scale: 2 }).notNull(),
   gstRate: decimal("gst_rate", { precision: 5, scale: 2 }).notNull().default("10.00"),
