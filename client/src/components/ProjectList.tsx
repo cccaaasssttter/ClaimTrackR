@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'wouter';
-import { ProjectForm } from './ProjectForm';
-import { Button } from '@/components/ui/button';
 import { type Project } from '@shared/schema';
 
 export const ProjectList: React.FC = () => {
   const [showProjectForm, setShowProjectForm] = useState(false);
+  const queryClient = useQueryClient();
 
   const { data: projects, isLoading, error } = useQuery<Project[]>({
     queryKey: ['/api/projects'],
@@ -16,6 +15,40 @@ export const ProjectList: React.FC = () => {
       return res.json();
     },
   });
+
+  const createProjectMutation = useMutation({
+    mutationFn: async (projectData: any) => {
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(projectData)
+      });
+      if (!response.ok) throw new Error('Failed to create project');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/projects'] });
+      setShowProjectForm(false);
+    }
+  });
+
+  const handleCreateProject = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const projectData = {
+      name: formData.get('name'),
+      description: formData.get('description'),
+      clientName: formData.get('clientName'),
+      totalValue: formData.get('totalValue'),
+      startDate: formData.get('startDate'),
+      endDate: formData.get('endDate'),
+      gstRate: '10.00',
+      retentionRate: '5.00',
+      status: 'active',
+      createdBy: '550e8400-e29b-41d4-a716-446655440000'
+    };
+    createProjectMutation.mutate(projectData);
+  };
 
   if (isLoading) {
     return (
@@ -49,10 +82,13 @@ export const ProjectList: React.FC = () => {
             <h2 className="text-2xl font-bold text-gray-900">Projects</h2>
             <p className="text-sm text-gray-500 mt-1">Manage your progress claims and project financials</p>
           </div>
-          <Button onClick={() => setShowProjectForm(true)}>
+          <button 
+            onClick={() => setShowProjectForm(true)}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"
+          >
             <i className="fas fa-plus mr-2"></i>
             New Project
-          </Button>
+          </button>
         </div>
 
         {projects && projects.length === 0 ? (
@@ -60,9 +96,12 @@ export const ProjectList: React.FC = () => {
             <i className="fas fa-folder text-4xl text-gray-300 mb-4"></i>
             <h3 className="text-lg font-medium text-gray-900">No projects yet</h3>
             <p className="text-gray-500 mb-6">Get started by creating your first project</p>
-            <Button onClick={() => setShowProjectForm(true)}>
+            <button 
+              onClick={() => setShowProjectForm(true)}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            >
               Create Project
-            </Button>
+            </button>
           </div>
         ) : (
           <div className="space-y-4">
@@ -115,7 +154,88 @@ export const ProjectList: React.FC = () => {
       </div>
 
       {showProjectForm && (
-        <ProjectForm onClose={() => setShowProjectForm(false)} />
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4">
+            <div className="p-6">
+              <h3 className="text-lg font-medium mb-4">Create New Project</h3>
+              <form onSubmit={handleCreateProject} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Project Name</label>
+                  <input 
+                    name="name" 
+                    type="text" 
+                    required 
+                    placeholder="Drake Building Construction"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Client Name</label>
+                  <input 
+                    name="clientName" 
+                    type="text" 
+                    required 
+                    placeholder="ABC Construction Ltd"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Contract Value</label>
+                  <input 
+                    name="totalValue" 
+                    type="number" 
+                    required 
+                    placeholder="1500000"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                  <textarea 
+                    name="description" 
+                    rows={3}
+                    placeholder="Commercial building construction project..."
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  ></textarea>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                    <input 
+                      name="startDate" 
+                      type="date" 
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                    <input 
+                      name="endDate" 
+                      type="date" 
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+                <div className="flex space-x-3 pt-4">
+                  <button 
+                    type="submit" 
+                    disabled={createProjectMutation.isPending}
+                    className="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 disabled:opacity-50"
+                  >
+                    {createProjectMutation.isPending ? 'Creating...' : 'Create Project'}
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={() => setShowProjectForm(false)}
+                    className="flex-1 bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
