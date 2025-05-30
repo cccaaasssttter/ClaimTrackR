@@ -655,6 +655,28 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
             </div>
             
             <div className="mt-4 pt-4 border-t border-gray-300">
+              <h5 className="text-md font-semibold text-gray-900 mb-3">This Claim Summary</h5>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Total Works This Claim:</span>
+                  <span className="font-medium">${Math.round(calculations.totalWorksCompleted).toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Total Variations This Claim:</span>
+                  <span className="font-medium text-blue-600">${Math.round(calculations.totalVariations).toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Total Credits This Claim:</span>
+                  <span className="font-medium text-red-600">-${Math.round(calculations.totalCredits).toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between font-medium">
+                  <span className="text-gray-900">Total Value This Claim (Inc GST):</span>
+                  <span className="text-gray-900">${Math.round(calculations.totalIncGst).toLocaleString()}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-4 pt-4 border-t border-gray-300">
               <h5 className="text-md font-semibold text-gray-900 mb-3">Contract Progress</h5>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
