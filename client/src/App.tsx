@@ -15,19 +15,52 @@ import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
-    <div style={{ 
-      backgroundColor: 'red', 
-      minHeight: '100vh', 
-      padding: '20px',
-      color: 'white',
-      fontSize: '24px'
-    }}>
-      <h1>EMERGENCY TEST - ClaimTrackR</h1>
-      <p>If you can see this red page, React is working!</p>
-      <div style={{ backgroundColor: 'blue', padding: '20px', margin: '20px 0' }}>
-        This is a basic test without any complex routing or components.
-      </div>
-    </div>
+    <Switch>
+      <Route path="/login" component={Login} />
+      <Route path="/">
+        <div className="flex min-h-screen bg-gray-50">
+          <Sidebar />
+          <main className="flex-1 ml-64">
+            <header className="bg-white border-b border-gray-200 px-6 py-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">ClaimTrackR</h2>
+                  <p className="text-sm text-gray-500 mt-1">Progress Claim Management System</p>
+                </div>
+              </div>
+            </header>
+            <div className="p-6">
+              <Switch>
+                <Route path="/" component={Dashboard} />
+                <Route path="/projects">
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Projects</h2>
+                    <p className="text-gray-500 mb-4">Manage your construction projects and progress claims</p>
+                    <ProjectList />
+                  </div>
+                </Route>
+                <Route path="/claims">
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Claims</h2>
+                    <p className="text-gray-500 mb-4">Access projects to create progress claims</p>
+                    <ProjectList />
+                  </div>
+                </Route>
+                <Route path="/reports">
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Reports</h2>
+                    <p className="text-gray-500 mb-4">Reports functionality coming soon</p>
+                  </div>
+                </Route>
+                <Route path="/project/:id" component={ProjectDetail} />
+                <Route path="/project/:projectId/claim/:claimId" component={ClaimDetail} />
+                <Route component={NotFound} />
+              </Switch>
+            </div>
+          </main>
+        </div>
+      </Route>
+    </Switch>
   );
 }
 
