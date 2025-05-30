@@ -6,10 +6,20 @@ import { type Project, type Claim } from '@shared/schema';
 export default function Dashboard() {
   const { data: projects } = useQuery<Project[]>({
     queryKey: ['/api/projects'],
+    queryFn: async () => {
+      const res = await fetch('/api/projects');
+      if (!res.ok) throw new Error('Failed to load projects');
+      return res.json();
+    },
   });
 
   const { data: recentClaims } = useQuery<Claim[]>({
     queryKey: ['/api/claims/recent'],
+    queryFn: async () => {
+      const res = await fetch('/api/claims/recent');
+      if (!res.ok) throw new Error('Failed to load recent claims');
+      return res.json();
+    },
   });
 
   const stats = {

@@ -10,6 +10,11 @@ export const ProjectList: React.FC = () => {
 
   const { data: projects, isLoading } = useQuery<Project[]>({
     queryKey: ['/api/projects'],
+    queryFn: async () => {
+      const res = await fetch('/api/projects');
+      if (!res.ok) throw new Error('Failed to load projects');
+      return res.json();
+    },
   });
 
   if (isLoading) {

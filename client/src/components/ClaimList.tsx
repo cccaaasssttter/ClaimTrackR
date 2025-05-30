@@ -10,6 +10,11 @@ interface ClaimListProps {
 export const ClaimList: React.FC<ClaimListProps> = ({ projectId }) => {
   const { data: claims, isLoading } = useQuery<Claim[]>({
     queryKey: ['/api/projects', projectId, 'claims'],
+    queryFn: async () => {
+      const res = await fetch(`/api/projects/${projectId}/claims`);
+      if (!res.ok) throw new Error('Failed to load claims');
+      return res.json();
+    },
   });
 
   if (isLoading) {
