@@ -78,7 +78,7 @@ export default function ProjectDetail() {
         </div>
 
         {/* Project Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-8">
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <div className="text-center">
               <p className="text-sm font-medium text-gray-600">Contract Value</p>
@@ -102,6 +102,26 @@ export default function ProjectDetail() {
               <p className="text-sm font-medium text-gray-600">Retention</p>
               <p className="text-2xl font-bold text-gray-900 mt-2">{Math.round(parseFloat(project.retentionRate))}% = ${Math.round(parseFloat(project.totalValue) * parseFloat(project.retentionRate) / 100).toLocaleString()}</p>
               <p className="text-xs text-gray-500 mt-1">Held back from total</p>
+            </div>
+          </div>
+          
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <div className="text-center">
+              <p className="text-sm font-medium text-gray-600">Claimed to Date</p>
+              <p className="text-2xl font-bold text-blue-600 mt-2">
+                ${claims?.reduce((sum, claim) => sum + parseFloat(claim.totalIncGst || '0'), 0).toLocaleString() || '0'}
+              </p>
+              <p className="text-xs text-gray-500 mt-1">Inc. GST</p>
+            </div>
+          </div>
+          
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <div className="text-center">
+              <p className="text-sm font-medium text-gray-600">Left to Claim</p>
+              <p className="text-2xl font-bold text-green-600 mt-2">
+                ${Math.max(0, (parseFloat(project.totalValue) * 1.10) - (claims?.reduce((sum, claim) => sum + parseFloat(claim.totalIncGst || '0'), 0) || 0)).toLocaleString()}
+              </p>
+              <p className="text-xs text-gray-500 mt-1">Remaining value</p>
             </div>
           </div>
           
