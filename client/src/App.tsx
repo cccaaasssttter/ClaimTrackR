@@ -23,23 +23,168 @@ function Dashboard() {
 }
 
 function Projects() {
+  const [showForm, setShowForm] = React.useState(false);
+  const [projects, setProjects] = React.useState([]);
+
+  const handleCreateProject = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const projectData = {
+      name: formData.get('name'),
+      description: formData.get('description'),
+      clientName: formData.get('clientName'),
+      totalValue: formData.get('totalValue'),
+      startDate: formData.get('startDate'),
+      endDate: formData.get('endDate'),
+      status: 'active'
+    };
+
+    try {
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(projectData)
+      });
+      
+      if (response.ok) {
+        const newProject = await response.json();
+        setProjects([...projects, newProject]);
+        setShowForm(false);
+        e.target.reset();
+      }
+    } catch (error) {
+      console.error('Failed to create project:', error);
+    }
+  };
+
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold text-gray-900 mb-6">Projects</h1>
       <div className="bg-green-100 border border-green-200 rounded-lg p-4 mb-6">
         <p className="text-green-800 font-medium">✓ Projects page loaded successfully!</p>
       </div>
+      
       <div className="bg-white rounded-lg border border-gray-200 p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold">Your Projects</h2>
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-            + New Project
+          <button 
+            onClick={() => setShowForm(!showForm)}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          >
+            {showForm ? 'Cancel' : '+ New Project'}
           </button>
         </div>
-        <div className="text-center py-12 text-gray-500">
-          <p className="text-lg">No projects created yet</p>
-          <p>Click "New Project" to get started with your first construction project</p>
-        </div>
+
+        {showForm && (
+          <div className="mb-6 p-6 bg-gray-50 rounded-lg border">
+            <h3 className="text-lg font-medium mb-4">Create New Project</h3>
+            <form onSubmit={handleCreateProject} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Project Name</label>
+                  <input 
+                    name="name" 
+                    type="text" 
+                    required 
+                    placeholder="Drake Building Construction"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Client Name</label>
+                  <input 
+                    name="clientName" 
+                    type="text" 
+                    required 
+                    placeholder="ABC Construction Ltd"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Contract Value</label>
+                  <input 
+                    name="totalValue" 
+                    type="number" 
+                    required 
+                    placeholder="1500000"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                  <input 
+                    name="startDate" 
+                    type="date" 
+                    required 
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                  <input 
+                    name="endDate" 
+                    type="date" 
+                    required 
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <textarea 
+                  name="description" 
+                  rows="3" 
+                  placeholder="Commercial building construction project..."
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                ></textarea>
+              </div>
+              <div className="flex space-x-3">
+                <button 
+                  type="submit" 
+                  className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700"
+                >
+                  Create Project
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => setShowForm(false)}
+                  className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {projects.length === 0 ? (
+          <div className="text-center py-12 text-gray-500">
+            <p className="text-lg">No projects created yet</p>
+            <p>Click "New Project" to get started with your first construction project</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {projects.map((project, index) => (
+              <div key={index} className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900">{project.name}</h3>
+                    <p className="text-gray-600">{project.description}</p>
+                    <p className="text-sm text-gray-500 mt-1">Client: {project.clientName}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-lg font-semibold text-green-600">
+                      ${parseInt(project.totalValue).toLocaleString()}
+                    </p>
+                    <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                      {project.status}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
