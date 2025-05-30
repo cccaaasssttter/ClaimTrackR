@@ -117,7 +117,11 @@ export default function Dashboard() {
               <div className="text-center py-8">
                 <i className="fas fa-folder text-4xl text-gray-300 mb-4"></i>
                 <h4 className="text-lg font-medium text-gray-900">No projects yet</h4>
-                <p className="text-gray-500">Create your first project to get started</p>
+                <p className="text-gray-500 mb-4">Create your first project to get started</p>
+                <Link href="/projects" className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+                  <i className="fas fa-plus mr-2"></i>
+                  Create Project
+                </Link>
               </div>
             ) : (
               <div className="space-y-4">
