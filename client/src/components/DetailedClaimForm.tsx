@@ -57,6 +57,8 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
     subTotal: 0,
     gst: 0,
     totalIncGst: 0,
+    retention: 0,
+    netPayable: 0,
   });
 
   const {
@@ -120,18 +122,27 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
     }, 0) || 0;
 
     const paymentReceived = parseFloat(watchedPaymentReceived || '0');
-    const subTotal = totalWorksCompleted + totalVariations - totalCredits - paymentReceived;
+    const claimSubTotal = totalWorksCompleted + totalVariations - totalCredits;
     const gstRate = parseFloat(project.gstRate) / 100;
-    const gst = subTotal * gstRate;
-    const totalIncGst = subTotal + gst;
+    const gst = claimSubTotal * gstRate;
+    const totalIncGst = claimSubTotal + gst;
+    
+    // Calculate retention (percentage of this claim)
+    const retentionRate = parseFloat(project.retentionPerClaim || '5') / 100;
+    const retention = totalIncGst * retentionRate;
+    
+    // Net payable = Total Inc GST - Retention - Previous Payments
+    const netPayable = totalIncGst - retention - paymentReceived;
 
     setCalculations({
       totalWorksCompleted,
       totalVariations,
       totalCredits,
-      subTotal,
+      subTotal: claimSubTotal,
       gst,
       totalIncGst,
+      retention,
+      netPayable,
     });
   }, [watchedItems, watchedVariations, watchedCredits, watchedPaymentReceived, project.gstRate]);
 
@@ -575,40 +586,44 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
           {/* Financial Summary */}
           <div className="bg-blue-50 rounded-lg p-6">
             <h4 className="text-lg font-semibold text-gray-900 mb-4">Claim Summary</h4>
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Total Works Completed:</span>
-                  <span className="font-medium">${calculations.totalWorksCompleted.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Total Variations:</span>
-                  <span className="font-medium">${calculations.totalVariations.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Total Credits:</span>
-                  <span className="font-medium text-red-600">-${calculations.totalCredits.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
-                </div>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Total Works Completed:</span>
+                <span className="font-medium">${Math.round(calculations.totalWorksCompleted).toLocaleString()}</span>
               </div>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Payment Received:</span>
-                  <span className="font-medium text-red-600">-${parseFloat(watchedPaymentReceived || '0').toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Sub Total:</span>
-                  <span className="font-medium">${calculations.subTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">GST ({project.gstRate}%):</span>
-                  <span className="font-medium">${calculations.gst.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
-                </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Total Variations:</span>
+                <span className="font-medium">${Math.round(calculations.totalVariations).toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Total Credits:</span>
+                <span className="font-medium text-red-600">-${Math.round(calculations.totalCredits).toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between border-t pt-2">
+                <span className="text-gray-600">Sub Total:</span>
+                <span className="font-medium">${Math.round(calculations.subTotal).toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">GST ({project.gstRate}%):</span>
+                <span className="font-medium">${Math.round(calculations.gst).toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between border-t pt-2">
+                <span className="text-gray-600 font-medium">Total Inc GST:</span>
+                <span className="font-bold">${Math.round(calculations.totalIncGst).toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Less: Retention ({project.retentionPerClaim || '5'}%):</span>
+                <span className="font-medium text-red-600">-${Math.round(calculations.retention).toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Less: Previous Payments:</span>
+                <span className="font-medium text-red-600">-${Math.round(parseFloat(watchedPaymentReceived || '0')).toLocaleString()}</span>
               </div>
             </div>
-            <div className="mt-4 pt-4 border-t border-blue-200">
+            <div className="mt-4 pt-4 border-t-2 border-blue-300">
               <div className="flex justify-between items-center font-bold text-lg">
-                <span>Total Inc GST:</span>
-                <span className="text-blue-700">${calculations.totalIncGst.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                <span>Net Payable:</span>
+                <span className="text-green-700">${Math.round(calculations.netPayable).toLocaleString()}</span>
               </div>
             </div>
           </div>
