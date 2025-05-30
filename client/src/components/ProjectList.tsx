@@ -213,7 +213,7 @@ export const ProjectList: React.FC = () => {
                     </div>
                     <div>
                       <p className="text-xs text-gray-500">Retention</p>
-                      <p className="text-sm font-semibold text-gray-900">{project.retentionRate}%</p>
+                      <p className="text-sm font-semibold text-gray-900">{Math.round(parseFloat(project.retentionRate))}% = ${Math.round(parseFloat(project.totalValue) * parseFloat(project.retentionRate) / 100).toLocaleString()}</p>
                     </div>
                     <div>
                       <p className="text-xs text-gray-500">Created</p>

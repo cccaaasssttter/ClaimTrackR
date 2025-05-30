@@ -100,8 +100,8 @@ export default function ProjectDetail() {
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <div className="text-center">
               <p className="text-sm font-medium text-gray-600">Retention</p>
-              <p className="text-2xl font-bold text-gray-900 mt-2">{project.retentionRate}%</p>
-              <p className="text-xs text-gray-500 mt-1">Held back</p>
+              <p className="text-2xl font-bold text-gray-900 mt-2">{Math.round(parseFloat(project.retentionRate))}% = ${Math.round(parseFloat(project.totalValue) * parseFloat(project.retentionRate) / 100).toLocaleString()}</p>
+              <p className="text-xs text-gray-500 mt-1">Held back from total</p>
             </div>
           </div>
           
