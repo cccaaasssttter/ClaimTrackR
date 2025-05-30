@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { ClaimList } from '@/components/ClaimList';
-import { ClaimForm } from '@/components/ClaimForm';
+import { DetailedClaimForm } from '@/components/DetailedClaimForm';
 import { Button } from '@/components/ui/button';
 import { type Project } from '@shared/schema';
 
@@ -107,7 +107,7 @@ export default function ProjectDetail() {
       </div>
 
       {showClaimForm && (
-        <ClaimForm 
+        <DetailedClaimForm 
           project={project}
           onClose={() => setShowClaimForm(false)} 
         />
