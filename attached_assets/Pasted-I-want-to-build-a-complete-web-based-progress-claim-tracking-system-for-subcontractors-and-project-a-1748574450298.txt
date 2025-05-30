@@ -1,0 +1,94 @@
+I want to build a complete web-based progress claim tracking system for subcontractors and project admins using React + Supabase inside Replit.
+
+Please start from scratch. I’m deleting the current app and want you to build this cleanly, step by step.
+
+🔧 Tech Stack:
+React (SPA)
+
+Supabase (Postgres + Auth + Storage)
+
+Vite (if supported)
+
+TailwindCSS (optional, but preferred for styling)
+
+react-router-dom for routing
+
+✅ Core Features:
+User login via Supabase Auth (email + password)
+
+AuthGuard to protect dashboard and all project data
+
+Project creation: name, total value, GST %, retention %
+
+Claim management per project:
+
+Claim number, % complete, status
+
+Auto-calculation: this claim, total, GST, retention
+
+Variation tracking per claim:
+
+Description, amount (+/−), status (Pending/Approved/Rejected)
+
+Attachments (optional, stored in Supabase Storage)
+
+File upload support for claims (PDFs, images)
+
+PDF export of each claim (optional step)
+
+🧱 Page Structure:
+/login: login form
+
+/: dashboard with list of projects
+
+/project/:id: view claims for project, add new claims
+
+/project/:id/claim/:claimId: view full claim + variations
+
+📁 Components to create:
+AuthGuard.jsx — protects routes from unauthenticated access
+
+ProjectForm.jsx — create project form
+
+ProjectList.jsx — list of all user projects
+
+ClaimForm.jsx — create a claim and auto-calculate fields
+
+ClaimList.jsx — list all claims for a project
+
+VariationForm.jsx — form to add variations to a claim
+
+VariationList.jsx — list of variations per claim
+
+FileUploader.jsx — upload files to Supabase Storage
+
+📦 Supabase Schema (use SQL Editor):
+users: id, email, role, created_at
+
+projects: id, name, total_value, gst_rate, retention_rate, status, created_by
+
+claims: id, project_id, number, status, percent_complete, previous_claim, this_claim, total_ex_gst, gst, total_inc_gst, retention_held, created_by, created_at
+
+claim_items (optional): description, contract_value, percent_complete, previous_claim, this_claim
+
+variations: claim_id, description, amount, status, created_at
+
+attachments: claim_id, file_name, file_url, uploaded_by
+
+Enable Row Level Security and set policies so users can only see their own projects, claims, and variations.
+
+🧠 Flow:
+User logs in → sees projects
+
+Creates project → adds claims under project
+
+Enters % complete → system auto-calculates financials
+
+Can add variations and attachments
+
+Can export claim to PDF later (optional)
+
+Start by setting up the folder structure, Supabase client, and a clean working login screen. Then walk me through each module step by step. Ask before generating each group of files.
+
+Let’s begin with a clean React + Supabase app. You're the lead dev.
+
