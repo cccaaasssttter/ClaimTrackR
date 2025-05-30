@@ -135,6 +135,51 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
     });
   }, [watchedItems, watchedVariations, watchedCredits, watchedPaymentReceived, project.gstRate]);
 
+  const saveDraftMutation = useMutation({
+    mutationFn: async (data: DetailedClaimForm) => {
+      // Create the main claim as draft
+      const claimData: InsertClaim = {
+        projectId: project.id,
+        number: data.number,
+        monthEnding: data.monthEnding ? new Date(data.monthEnding) : null,
+        contactPerson: data.contactPerson || null,
+        subcontractReference: data.subcontractReference || null,
+        totalWorksCompleted: calculations.totalWorksCompleted.toFixed(2),
+        paymentReceived: data.paymentReceived,
+        deductions: calculations.totalCredits.toFixed(2),
+        subTotal: calculations.subTotal.toFixed(2),
+        gstAmount: calculations.gst.toFixed(2),
+        totalIncGst: calculations.totalIncGst.toFixed(2),
+        status: 'draft', // Set as draft
+        description: data.description || null,
+      };
+
+      const response = await apiRequest({
+        url: '/api/claims',
+        method: 'POST',
+        body: claimData,
+      });
+
+      return response;
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Draft Saved',
+        description: 'Your claim draft has been saved successfully.',
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/claims'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', project.id, 'claims'] });
+      onClose();
+    },
+    onError: (error: Error) => {
+      toast({
+        title: 'Error',
+        description: `Failed to save draft: ${error.message}`,
+        variant: 'destructive',
+      });
+    },
+  });
+
   const createClaimMutation = useMutation({
     mutationFn: async (data: DetailedClaimForm) => {
       // Create the main claim
@@ -581,6 +626,14 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
           <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel
+            </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={handleSubmit((data) => saveDraftMutation.mutate(data))}
+              disabled={saveDraftMutation.isPending}
+            >
+              {saveDraftMutation.isPending ? 'Saving...' : 'Save Draft'}
             </Button>
             <Button
               type="submit"
