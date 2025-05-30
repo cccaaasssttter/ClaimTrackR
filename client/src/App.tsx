@@ -19,7 +19,19 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/">
         <div className="flex min-h-screen bg-gray-50">
-          <Sidebar />
+          <aside className="w-64 bg-white shadow-lg border-r border-gray-200 fixed h-full z-10">
+            <div className="p-6 border-b border-gray-200">
+              <h1 className="text-xl font-bold text-gray-900">ClaimTrackR</h1>
+            </div>
+            <nav className="p-4">
+              <ul className="space-y-2">
+                <li><a href="/" className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Dashboard</a></li>
+                <li><a href="/projects" className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Projects</a></li>
+                <li><a href="/claims" className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Claims</a></li>
+                <li><a href="/reports" className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Reports</a></li>
+              </ul>
+            </nav>
+          </aside>
           <main className="flex-1 ml-64">
             <header className="bg-white border-b border-gray-200 px-6 py-4">
               <div className="flex items-center justify-between">
