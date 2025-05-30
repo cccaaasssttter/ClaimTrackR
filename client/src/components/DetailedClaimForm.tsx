@@ -579,6 +579,14 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
                     </Button>
                   </div>
                 ))}
+                {creditFields.length > 1 && (
+                  <div className="mt-3 pt-3 border-t border-gray-200">
+                    <div className="flex justify-between font-medium">
+                      <span>Total Credits/Deductions:</span>
+                      <span className="text-red-600">${Math.round(calculations.totalCredits).toLocaleString()}</span>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
