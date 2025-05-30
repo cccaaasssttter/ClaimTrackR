@@ -13,6 +13,11 @@ export const VariationList: React.FC<VariationListProps> = ({ claimId }) => {
 
   const { data: variations, isLoading } = useQuery<Variation[]>({
     queryKey: ['/api/claims', claimId, 'variations'],
+    queryFn: async () => {
+      const res = await fetch(`/api/claims/${claimId}/variations`);
+      if (!res.ok) throw new Error('Failed to load variations');
+      return res.json();
+    },
   });
 
   if (isLoading) {
