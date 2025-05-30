@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ClaimList } from '@/components/ClaimList';
 import { DetailedClaimForm } from '@/components/DetailedClaimForm';
 import { Button } from '@/components/ui/button';
-import { type Project } from '@shared/schema';
+import { type Project, type Claim } from '@shared/schema';
 
 export default function ProjectDetail() {
   const params = useParams<{ id: string }>();
@@ -18,6 +18,16 @@ export default function ProjectDetail() {
       if (!res.ok) throw new Error('Failed to load project');
       return res.json();
     },
+  });
+
+  const { data: claims = [] } = useQuery<Claim[]>({
+    queryKey: ['/api/projects', params.id, 'claims'],
+    queryFn: async () => {
+      const res = await fetch(`/api/projects/${params.id}/claims`);
+      if (!res.ok) throw new Error('Failed to load claims');
+      return res.json();
+    },
+    enabled: !!params.id,
   });
 
   if (isLoading) {
