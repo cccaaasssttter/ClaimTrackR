@@ -59,8 +59,10 @@ export const ProjectList: React.FC = () => {
       totalValue: formData.get('totalValue'),
       startDate: formData.get('startDate'),
       endDate: formData.get('endDate'),
-      gstRate: '10.00',
-      retentionRate: '5.00',
+      gstRate: formData.get('gstRate') || '10.00',
+      retentionRate: formData.get('retentionRate') || '5.00',
+      retentionPolicy: formData.get('retentionPolicy') || 'every_claim',
+      retentionThreshold: formData.get('retentionThreshold') || '50.00',
       status: 'active',
       createdBy: '550e8400-e29b-41d4-a716-446655440000'
     };
@@ -79,6 +81,8 @@ export const ProjectList: React.FC = () => {
       totalValue: formData.get('totalValue'),
       gstRate: formData.get('gstRate') || '10.00',
       retentionRate: formData.get('retentionRate') || '5.00',
+      retentionPolicy: formData.get('retentionPolicy') || 'every_claim',
+      retentionThreshold: formData.get('retentionThreshold') || '50.00',
       status: formData.get('status') || 'active'
     };
     updateProjectMutation.mutate(projectData);
@@ -232,21 +236,53 @@ export const ProjectList: React.FC = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">GST Rate (%)</label>
                     <input 
-                      name="startDate" 
-                      type="date" 
+                      name="gstRate" 
+                      type="number" 
+                      step="0.01"
+                      defaultValue="10.00"
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Retention (%)</label>
                     <input 
-                      name="endDate" 
-                      type="date" 
+                      name="retentionRate" 
+                      type="number" 
+                      step="0.01"
+                      defaultValue="5.00"
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Retention Policy</label>
+                  <select 
+                    name="retentionPolicy" 
+                    defaultValue="every_claim"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="every_claim">Deduct from every claim</option>
+                    <option value="until_percentage">Deduct until project % complete</option>
+                    <option value="practical_completion">Deduct until practical completion</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Retention Threshold (% of project completion)
+                  </label>
+                  <input 
+                    name="retentionThreshold" 
+                    type="number" 
+                    step="0.01"
+                    defaultValue="50.00"
+                    placeholder="50.00"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Only used for "until project % complete" policy
+                  </p>
                 </div>
                 <div className="flex space-x-3 pt-4">
                   <button 
@@ -327,6 +363,34 @@ export const ProjectList: React.FC = () => {
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Retention Policy</label>
+                  <select 
+                    name="retentionPolicy" 
+                    defaultValue={editingProject.retentionPolicy || 'every_claim'}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="every_claim">Deduct from every claim</option>
+                    <option value="until_percentage">Deduct until project % complete</option>
+                    <option value="practical_completion">Deduct until practical completion</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Retention Threshold (% of project completion)
+                  </label>
+                  <input 
+                    name="retentionThreshold" 
+                    type="number" 
+                    step="0.01"
+                    defaultValue={editingProject.retentionThreshold || '50.00'}
+                    placeholder="50.00"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Only used for "until project % complete" policy
+                  </p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>

@@ -16,6 +16,8 @@ export const projects = pgTable("projects", {
   totalValue: decimal("total_value", { precision: 12, scale: 2 }).notNull(),
   gstRate: decimal("gst_rate", { precision: 5, scale: 2 }).notNull().default("10.00"),
   retentionRate: decimal("retention_rate", { precision: 5, scale: 2 }).notNull().default("5.00"),
+  retentionPolicy: text("retention_policy").notNull().default("every_claim"), // every_claim, until_percentage, practical_completion
+  retentionThreshold: decimal("retention_threshold", { precision: 5, scale: 2 }).default("50.00"), // Used for until_percentage policy
   status: text("status").notNull().default("active"), // active, completed, on_hold
   createdBy: uuid("created_by").notNull().references(() => users.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),
