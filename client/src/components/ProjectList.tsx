@@ -61,8 +61,12 @@ export const ProjectList: React.FC = () => {
       endDate: formData.get('endDate'),
       gstRate: formData.get('gstRate') || '10.00',
       retentionRate: formData.get('retentionRate') || '5.00',
-      retentionPolicy: formData.get('retentionPolicy') || 'every_claim',
-      retentionThreshold: formData.get('retentionThreshold') || '50.00',
+      retentionPerClaim: formData.get('retentionPerClaim') || '5.00',
+      retentionCollectionUntil: formData.get('retentionCollectionUntil') || '50.00',
+      firstReleaseEvent: formData.get('firstReleaseEvent') || 'practical_completion',
+      firstReleasePercentage: formData.get('firstReleasePercentage') || '50.00',
+      dlpPeriodMonths: formData.get('dlpPeriodMonths') || '12',
+      finalReleasePercentage: formData.get('finalReleasePercentage') || '50.00',
       status: 'active',
       createdBy: '550e8400-e29b-41d4-a716-446655440000'
     };
@@ -81,8 +85,12 @@ export const ProjectList: React.FC = () => {
       totalValue: formData.get('totalValue'),
       gstRate: formData.get('gstRate') || '10.00',
       retentionRate: formData.get('retentionRate') || '5.00',
-      retentionPolicy: formData.get('retentionPolicy') || 'every_claim',
-      retentionThreshold: formData.get('retentionThreshold') || '50.00',
+      retentionPerClaim: formData.get('retentionPerClaim') || '5.00',
+      retentionCollectionUntil: formData.get('retentionCollectionUntil') || '50.00',
+      firstReleaseEvent: formData.get('firstReleaseEvent') || 'practical_completion',
+      firstReleasePercentage: formData.get('firstReleasePercentage') || '50.00',
+      dlpPeriodMonths: formData.get('dlpPeriodMonths') || '12',
+      finalReleasePercentage: formData.get('finalReleasePercentage') || '50.00',
       status: formData.get('status') || 'active'
     };
     updateProjectMutation.mutate(projectData);
@@ -234,55 +242,106 @@ export const ProjectList: React.FC = () => {
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   ></textarea>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">GST Rate (%)</label>
-                    <input 
-                      name="gstRate" 
-                      type="number" 
-                      step="0.01"
-                      defaultValue="10.00"
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Retention (%)</label>
-                    <input 
-                      name="retentionRate" 
-                      type="number" 
-                      step="0.01"
-                      defaultValue="5.00"
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Retention Policy</label>
-                  <select 
-                    name="retentionPolicy" 
-                    defaultValue="every_claim"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="every_claim">Deduct from every claim</option>
-                    <option value="until_percentage">Deduct until project % complete</option>
-                    <option value="practical_completion">Deduct until practical completion</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Retention Threshold (% of project completion)
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">GST Rate (%)</label>
                   <input 
-                    name="retentionThreshold" 
+                    name="gstRate" 
                     type="number" 
                     step="0.01"
-                    defaultValue="50.00"
-                    placeholder="50.00"
+                    defaultValue="10.00"
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Only used for "until project % complete" policy
-                  </p>
+                </div>
+
+                <div className="border-t pt-4 mt-4">
+                  <h4 className="text-lg font-medium text-gray-900 mb-3">Retention Settings</h4>
+                  
+                  <div className="grid grid-cols-3 gap-4 mb-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Total Retention (%)</label>
+                      <input 
+                        name="retentionRate" 
+                        type="number" 
+                        step="0.01"
+                        defaultValue="5.00"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">% of project value to hold</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Per Claim (%)</label>
+                      <input 
+                        name="retentionPerClaim" 
+                        type="number" 
+                        step="0.01"
+                        defaultValue="5.00"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">% to deduct each claim</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Stop Collection At (%)</label>
+                      <input 
+                        name="retentionCollectionUntil" 
+                        type="number" 
+                        step="0.01"
+                        defaultValue="50.00"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">% completion to stop</p>
+                    </div>
+                  </div>
+
+                  <h5 className="text-md font-medium text-gray-900 mb-3">Retention Release Schedule</h5>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">First Release Event</label>
+                      <select 
+                        name="firstReleaseEvent" 
+                        defaultValue="practical_completion"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="practical_completion">Practical Completion</option>
+                        <option value="final_completion">Final Completion</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">First Release (%)</label>
+                      <input 
+                        name="firstReleasePercentage" 
+                        type="number" 
+                        step="0.01"
+                        defaultValue="50.00"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">% of retention to release</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">DLP Period (months)</label>
+                      <input 
+                        name="dlpPeriodMonths" 
+                        type="number" 
+                        defaultValue="12"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Defects liability period</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Final Release (%)</label>
+                      <input 
+                        name="finalReleasePercentage" 
+                        type="number" 
+                        step="0.01"
+                        defaultValue="50.00"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">% released after DLP</p>
+                    </div>
+                  </div>
                 </div>
                 <div className="flex space-x-3 pt-4">
                   <button 
@@ -342,55 +401,106 @@ export const ProjectList: React.FC = () => {
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   ></textarea>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">GST Rate (%)</label>
-                    <input 
-                      name="gstRate" 
-                      type="number" 
-                      step="0.01"
-                      defaultValue={editingProject.gstRate}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Retention (%)</label>
-                    <input 
-                      name="retentionRate" 
-                      type="number" 
-                      step="0.01"
-                      defaultValue={editingProject.retentionRate}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Retention Policy</label>
-                  <select 
-                    name="retentionPolicy" 
-                    defaultValue={editingProject.retentionPolicy || 'every_claim'}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="every_claim">Deduct from every claim</option>
-                    <option value="until_percentage">Deduct until project % complete</option>
-                    <option value="practical_completion">Deduct until practical completion</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Retention Threshold (% of project completion)
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">GST Rate (%)</label>
                   <input 
-                    name="retentionThreshold" 
+                    name="gstRate" 
                     type="number" 
                     step="0.01"
-                    defaultValue={editingProject.retentionThreshold || '50.00'}
-                    placeholder="50.00"
+                    defaultValue={editingProject.gstRate}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Only used for "until project % complete" policy
-                  </p>
+                </div>
+
+                <div className="border-t pt-4 mt-4">
+                  <h4 className="text-lg font-medium text-gray-900 mb-3">Retention Settings</h4>
+                  
+                  <div className="grid grid-cols-3 gap-4 mb-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Total Retention (%)</label>
+                      <input 
+                        name="retentionRate" 
+                        type="number" 
+                        step="0.01"
+                        defaultValue={editingProject.retentionRate}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">% of project value to hold</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Per Claim (%)</label>
+                      <input 
+                        name="retentionPerClaim" 
+                        type="number" 
+                        step="0.01"
+                        defaultValue={editingProject.retentionPerClaim || '5.00'}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">% to deduct each claim</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Stop Collection At (%)</label>
+                      <input 
+                        name="retentionCollectionUntil" 
+                        type="number" 
+                        step="0.01"
+                        defaultValue={editingProject.retentionCollectionUntil || '50.00'}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">% completion to stop</p>
+                    </div>
+                  </div>
+
+                  <h5 className="text-md font-medium text-gray-900 mb-3">Retention Release Schedule</h5>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">First Release Event</label>
+                      <select 
+                        name="firstReleaseEvent" 
+                        defaultValue={editingProject.firstReleaseEvent || 'practical_completion'}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="practical_completion">Practical Completion</option>
+                        <option value="final_completion">Final Completion</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">First Release (%)</label>
+                      <input 
+                        name="firstReleasePercentage" 
+                        type="number" 
+                        step="0.01"
+                        defaultValue={editingProject.firstReleasePercentage || '50.00'}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">% of retention to release</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">DLP Period (months)</label>
+                      <input 
+                        name="dlpPeriodMonths" 
+                        type="number" 
+                        defaultValue={editingProject.dlpPeriodMonths || '12'}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Defects liability period</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Final Release (%)</label>
+                      <input 
+                        name="finalReleasePercentage" 
+                        type="number" 
+                        step="0.01"
+                        defaultValue={editingProject.finalReleasePercentage || '50.00'}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">% released after DLP</p>
+                    </div>
+                  </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>

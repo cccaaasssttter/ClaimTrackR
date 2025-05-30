@@ -15,9 +15,18 @@ export const projects = pgTable("projects", {
   description: text("description"),
   totalValue: decimal("total_value", { precision: 12, scale: 2 }).notNull(),
   gstRate: decimal("gst_rate", { precision: 5, scale: 2 }).notNull().default("10.00"),
-  retentionRate: decimal("retention_rate", { precision: 5, scale: 2 }).notNull().default("5.00"),
-  retentionPolicy: text("retention_policy").notNull().default("every_claim"), // every_claim, until_percentage, practical_completion
-  retentionThreshold: decimal("retention_threshold", { precision: 5, scale: 2 }).default("50.00"), // Used for until_percentage policy
+  
+  // Retention Collection Settings
+  retentionRate: decimal("retention_rate", { precision: 5, scale: 2 }).notNull().default("5.00"), // % of project value to hold
+  retentionPerClaim: decimal("retention_per_claim", { precision: 5, scale: 2 }).notNull().default("5.00"), // % to deduct per claim
+  retentionCollectionUntil: decimal("retention_collection_until", { precision: 5, scale: 2 }).default("50.00"), // Stop collecting at % completion
+  
+  // Retention Release Settings
+  firstReleaseEvent: text("first_release_event").notNull().default("practical_completion"), // practical_completion, final_completion
+  firstReleasePercentage: decimal("first_release_percentage", { precision: 5, scale: 2 }).notNull().default("50.00"), // % of retention to release first
+  dlpPeriodMonths: integer("dlp_period_months").notNull().default(12), // Defects liability period in months
+  finalReleasePercentage: decimal("final_release_percentage", { precision: 5, scale: 2 }).notNull().default("50.00"), // % remaining after DLP
+  
   status: text("status").notNull().default("active"), // active, completed, on_hold
   createdBy: uuid("created_by").notNull().references(() => users.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),
