@@ -8,7 +8,7 @@ import { type Project } from '@shared/schema';
 export const ProjectList: React.FC = () => {
   const [showProjectForm, setShowProjectForm] = useState(false);
 
-  const { data: projects, isLoading } = useQuery<Project[]>({
+  const { data: projects, isLoading, error } = useQuery<Project[]>({
     queryKey: ['/api/projects'],
     queryFn: async () => {
       const res = await fetch('/api/projects');
@@ -27,6 +27,16 @@ export const ProjectList: React.FC = () => {
             <div className="h-2 bg-gray-200 rounded w-full"></div>
           </div>
         ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-red-50 border border-red-200 rounded-xl p-6">
+        <h3 className="text-lg font-medium text-red-900 mb-2">Unable to load projects</h3>
+        <p className="text-red-700">Failed to connect to the backend. Please check your connection.</p>
+        <pre className="mt-2 text-sm text-red-600">{error.message}</pre>
       </div>
     );
   }
