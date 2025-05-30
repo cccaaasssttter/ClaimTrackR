@@ -6,6 +6,7 @@ import { type Project } from '@shared/schema';
 export const ProjectList: React.FC = () => {
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [deletingProject, setDeletingProject] = useState<Project | null>(null);
   const queryClient = useQueryClient();
 
   const { data: projects, isLoading, error } = useQuery<Project[]>({
@@ -46,6 +47,20 @@ export const ProjectList: React.FC = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects'] });
       setEditingProject(null);
+    }
+  });
+
+  const deleteProjectMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const response = await fetch(`/api/projects/${id}`, {
+        method: 'DELETE'
+      });
+      if (!response.ok) throw new Error('Failed to delete project');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/projects'] });
+      setDeletingProject(null);
     }
   });
 
@@ -152,12 +167,20 @@ export const ProjectList: React.FC = () => {
                       {project.status}
                     </span>
                   </div>
-                  <button
-                    onClick={() => setEditingProject(project)}
-                    className="px-3 py-1 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-md border border-blue-200"
-                  >
-                    Edit
-                  </button>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => setEditingProject(project)}
+                      className="px-3 py-1 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-md border border-blue-200"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => setDeletingProject(project)}
+                      className="px-3 py-1 text-sm text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md border border-red-200"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
                 
                 <Link href={`/project/${project.id}`} className="block">
@@ -509,6 +532,35 @@ export const ProjectList: React.FC = () => {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deletingProject && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4">
+            <div className="p-6">
+              <h3 className="text-lg font-medium text-red-900 mb-4">Delete Project</h3>
+              <p className="text-gray-700 mb-4">
+                Are you sure you want to delete "<span className="font-semibold">{deletingProject.name}</span>"? 
+                This action cannot be undone and will permanently remove all project data including claims, variations, and attachments.
+              </p>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => deleteProjectMutation.mutate(deletingProject.id)}
+                  disabled={deleteProjectMutation.isPending}
+                  className="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 disabled:opacity-50"
+                >
+                  {deleteProjectMutation.isPending ? 'Deleting...' : 'Yes, Delete Project'}
+                </button>
+                <button
+                  onClick={() => setDeletingProject(null)}
+                  className="flex-1 bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         </div>

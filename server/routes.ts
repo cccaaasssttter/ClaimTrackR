@@ -149,6 +149,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.delete("/api/projects/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log("Deleting project:", id);
+      
+      // First delete all related claims and their dependencies
+      const projectClaims = await db
+        .select({ id: claims.id })
+        .from(claims)
+        .where(eq(claims.projectId, id));
+      
+      for (const claim of projectClaims) {
+        // Delete claim items
+        await db.delete(claimItems).where(eq(claimItems.claimId, claim.id));
+        // Delete variations
+        await db.delete(variations).where(eq(variations.claimId, claim.id));
+        // Delete attachments
+        await db.delete(attachments).where(eq(attachments.claimId, claim.id));
+        // Delete credits
+        await db.delete(credits).where(eq(credits.claimId, claim.id));
+      }
+      
+      // Delete all claims for this project
+      await db.delete(claims).where(eq(claims.projectId, id));
+      
+      // Finally delete the project
+      const [deletedProject] = await db
+        .delete(projects)
+        .where(eq(projects.id, id))
+        .returning();
+      
+      if (!deletedProject) {
+        return res.status(404).json({ message: "Project not found" });
+      }
+      
+      console.log("Deleted project:", deletedProject);
+      res.json({ message: "Project deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting project:", error);
+      res.status(500).json({ message: "Failed to delete project", error: error instanceof Error ? error.message : String(error) });
+    }
+  });
+
   // Claims routes
   app.get("/api/projects/:projectId/claims", async (req, res) => {
     try {
