@@ -61,6 +61,7 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
     netPayable: 0,
     remainingContractValue: 0,
     totalRetentionHeld: 0,
+    totalProjectVariations: 0,
   });
 
   const {
@@ -144,6 +145,10 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
     // Calculate total retention that will be held (including this claim)
     // This assumes retention is held on each claim
     const totalRetentionHeld = retention; // For this claim - in a real system, this would accumulate
+    
+    // Calculate total project variations (current claim variations only for now)
+    // In a full system, this would include variations from all previous claims
+    const totalProjectVariations = totalVariations;
 
     setCalculations({
       totalWorksCompleted,
@@ -156,6 +161,7 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
       netPayable,
       remainingContractValue,
       totalRetentionHeld,
+      totalProjectVariations,
     });
   }, [watchedItems, watchedVariations, watchedCredits, watchedPaymentReceived, project.gstRate]);
 
@@ -654,6 +660,10 @@ export const DetailedClaimForm: React.FC<DetailedClaimFormProps> = ({ project, o
                 <div className="flex justify-between">
                   <span className="text-gray-600">Contract Value Remaining:</span>
                   <span className="font-medium">${Math.round(calculations.remainingContractValue).toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Total Project Variations:</span>
+                  <span className="font-medium text-blue-600">${Math.round(calculations.totalProjectVariations).toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Total Retention Held:</span>
