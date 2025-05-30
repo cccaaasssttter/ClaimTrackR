@@ -256,7 +256,7 @@ export const ProjectList: React.FC = () => {
                 <div className="border-t pt-4 mt-4">
                   <h4 className="text-lg font-medium text-gray-900 mb-3">Retention Settings</h4>
                   
-                  <div className="grid grid-cols-3 gap-4 mb-4">
+                  <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Total Retention (%)</label>
                       <input 
@@ -279,69 +279,9 @@ export const ProjectList: React.FC = () => {
                       />
                       <p className="text-xs text-gray-500 mt-1">% to deduct each claim</p>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Stop Collection At (%)</label>
-                      <input 
-                        name="retentionCollectionUntil" 
-                        type="number" 
-                        step="0.01"
-                        defaultValue="50.00"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                      <p className="text-xs text-gray-500 mt-1">% completion to stop</p>
-                    </div>
                   </div>
 
-                  <h5 className="text-md font-medium text-gray-900 mb-3">Retention Release Schedule</h5>
-                  
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">First Release Event</label>
-                      <select 
-                        name="firstReleaseEvent" 
-                        defaultValue="practical_completion"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      >
-                        <option value="practical_completion">Practical Completion</option>
-                        <option value="final_completion">Final Completion</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">First Release (%)</label>
-                      <input 
-                        name="firstReleasePercentage" 
-                        type="number" 
-                        step="0.01"
-                        defaultValue="50.00"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                      <p className="text-xs text-gray-500 mt-1">% of retention to release</p>
-                    </div>
-                  </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">DLP Period (months)</label>
-                      <input 
-                        name="dlpPeriodMonths" 
-                        type="number" 
-                        defaultValue="12"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                      <p className="text-xs text-gray-500 mt-1">Defects liability period</p>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Final Release (%)</label>
-                      <input 
-                        name="finalReleasePercentage" 
-                        type="number" 
-                        step="0.01"
-                        defaultValue="50.00"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                      <p className="text-xs text-gray-500 mt-1">% released after DLP</p>
-                    </div>
-                  </div>
                 </div>
                 <div className="flex space-x-3 pt-4">
                   <button 
@@ -415,7 +355,7 @@ export const ProjectList: React.FC = () => {
                 <div className="border-t pt-4 mt-4">
                   <h4 className="text-lg font-medium text-gray-900 mb-3">Retention Settings</h4>
                   
-                  <div className="grid grid-cols-3 gap-4 mb-4">
+                  <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Total Retention (%)</label>
                       <input 
@@ -438,69 +378,9 @@ export const ProjectList: React.FC = () => {
                       />
                       <p className="text-xs text-gray-500 mt-1">% to deduct each claim</p>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Stop Collection At (%)</label>
-                      <input 
-                        name="retentionCollectionUntil" 
-                        type="number" 
-                        step="0.01"
-                        defaultValue={editingProject.retentionCollectionUntil || '50.00'}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                      <p className="text-xs text-gray-500 mt-1">% completion to stop</p>
-                    </div>
                   </div>
 
-                  <h5 className="text-md font-medium text-gray-900 mb-3">Retention Release Schedule</h5>
-                  
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">First Release Event</label>
-                      <select 
-                        name="firstReleaseEvent" 
-                        defaultValue={editingProject.firstReleaseEvent || 'practical_completion'}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      >
-                        <option value="practical_completion">Practical Completion</option>
-                        <option value="final_completion">Final Completion</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">First Release (%)</label>
-                      <input 
-                        name="firstReleasePercentage" 
-                        type="number" 
-                        step="0.01"
-                        defaultValue={editingProject.firstReleasePercentage || '50.00'}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                      <p className="text-xs text-gray-500 mt-1">% of retention to release</p>
-                    </div>
-                  </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">DLP Period (months)</label>
-                      <input 
-                        name="dlpPeriodMonths" 
-                        type="number" 
-                        defaultValue={editingProject.dlpPeriodMonths || '12'}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                      <p className="text-xs text-gray-500 mt-1">Defects liability period</p>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Final Release (%)</label>
-                      <input 
-                        name="finalReleasePercentage" 
-                        type="number" 
-                        step="0.01"
-                        defaultValue={editingProject.finalReleasePercentage || '50.00'}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                      <p className="text-xs text-gray-500 mt-1">% released after DLP</p>
-                    </div>
-                  </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
