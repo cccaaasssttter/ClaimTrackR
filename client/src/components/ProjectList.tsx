@@ -71,13 +71,13 @@ export const ProjectList: React.FC = () => {
       name: formData.get('name'),
       description: formData.get('description'),
       clientName: formData.get('clientName'),
+      contactPerson: formData.get('contactPerson'),
+      contractorAddress: formData.get('contractorAddress'),
+      subcontractReference: formData.get('subcontractReference'),
       totalValue: formData.get('totalValue'),
-      startDate: formData.get('startDate'),
-      endDate: formData.get('endDate'),
       gstRate: formData.get('gstRate') || '10.00',
       retentionRate: formData.get('retentionRate') || '5.00',
       retentionPerClaim: formData.get('retentionPerClaim') || '5.00',
-      retentionCollectionUntil: formData.get('retentionCollectionUntil') || '50.00',
       firstReleaseEvent: formData.get('firstReleaseEvent') || 'practical_completion',
       firstReleasePercentage: formData.get('firstReleasePercentage') || '50.00',
       dlpPeriodMonths: formData.get('dlpPeriodMonths') || '12',
@@ -97,6 +97,10 @@ export const ProjectList: React.FC = () => {
       id: editingProject.id,
       name: formData.get('name'),
       description: formData.get('description'),
+      clientName: formData.get('clientName'),
+      contactPerson: formData.get('contactPerson'),
+      contractorAddress: formData.get('contractorAddress'),
+      subcontractReference: formData.get('subcontractReference'),
       totalValue: formData.get('totalValue'),
       gstRate: formData.get('gstRate') || '10.00',
       retentionRate: formData.get('retentionRate') || '5.00',
@@ -236,12 +240,38 @@ export const ProjectList: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Client Name</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Client (Payee)</label>
                   <input 
                     name="clientName" 
                     type="text" 
-                    required 
                     placeholder="ABC Construction Ltd"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Contact Person</label>
+                  <input 
+                    name="contactPerson" 
+                    type="text" 
+                    placeholder="John Smith - Project Manager"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Address</label>
+                  <textarea 
+                    name="contractorAddress" 
+                    rows={2}
+                    placeholder="123 Builder Street, Melbourne VIC 3000"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  ></textarea>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Subcontract Reference</label>
+                  <input 
+                    name="subcontractReference" 
+                    type="text" 
+                    placeholder="SC-2025-001"
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -389,6 +419,42 @@ export const ProjectList: React.FC = () => {
                     type="text" 
                     required 
                     defaultValue={editingProject.name}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Client (Payee)</label>
+                  <input 
+                    name="clientName" 
+                    type="text" 
+                    defaultValue={editingProject.clientName || ''}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Contact Person</label>
+                  <input 
+                    name="contactPerson" 
+                    type="text" 
+                    defaultValue={editingProject.contactPerson || ''}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Address</label>
+                  <textarea 
+                    name="contractorAddress" 
+                    rows={2}
+                    defaultValue={editingProject.contractorAddress || ''}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  ></textarea>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Subcontract Reference</label>
+                  <input 
+                    name="subcontractReference" 
+                    type="text" 
+                    defaultValue={editingProject.subcontractReference || ''}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>

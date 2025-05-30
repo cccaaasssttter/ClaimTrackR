@@ -12,6 +12,10 @@ export const users = pgTable("users", {
 export const projects = pgTable("projects", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
+  clientName: text("client_name"),
+  contactPerson: text("contact_person"),
+  contractorAddress: text("contractor_address"),
+  subcontractReference: text("subcontract_reference"),
   description: text("description"),
   totalValue: decimal("total_value", { precision: 12, scale: 2 }).notNull(),
   gstRate: decimal("gst_rate", { precision: 5, scale: 2 }).notNull().default("10.00"),
