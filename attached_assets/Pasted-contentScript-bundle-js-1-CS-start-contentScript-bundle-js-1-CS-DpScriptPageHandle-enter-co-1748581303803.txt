@@ -1,0 +1,182 @@
+contentScript.bundle.js:1 [CS]  start
+contentScript.bundle.js:1 [CS] [DpScriptPageHandle] enter
+contentScript.bundle.js:1 [CS] dataError =  1
+E.DpScriptPageHandle @ contentScript.bundle.js:1
+3530-247d16c736c1b6b7.js:1 Replit version ff1f5235, pid2 version 0.0.1350
+_app-d465231ea0c26d62.js:38 
+      /////////////////////
+   ///////////////////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////        Curious and driven?
+  ///////////////@@@@@@@///////        Work with us!
+  ///////////////@@@@@@@///////
+  ///////////////@@@@@@@///////        https://join.replit.com/hack.with.us
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@#//////////////
+   ///////////////////////////
+      /////////////////////
+      
+BlockingPageContent.js:2  action SET_STORAGE_DATA @ 14:48:35.095
+BlockingPageContent.js:2  prev state Object
+BlockingPageContent.js:2  action     Object
+BlockingPageContent.js:2  next state Object
+_app-d465231ea0c26d62.js:38 [LaunchDarkly] LaunchDarkly client initialized
+NotificationContent.js:2  action SET_LOCALE @ 14:48:35.421
+NotificationContent.js:2  prev state Object
+NotificationContent.js:2  action     Object
+NotificationContent.js:2  next state Object
+NotificationContent.js:2  action SET_STORAGE_DATA @ 14:48:35.460
+NotificationContent.js:2  prev state Object
+NotificationContent.js:2  action     Object
+NotificationContent.js:2  next state Object
+ [CS]  start
+ [CS] [DpScriptPageHandle] enter
+ [CS] dataError =  1
+E.DpScriptPageHandle @ contentScript.bundle.js:1
+content.js:2 [Violation] Permissions policy violation: unload is not allowed in this document.
+(anonymous) @ content.js:2
+content.js:2 [Violation] Permissions policy violation: unload is not allowed in this document.
+(anonymous) @ content.js:2
+content.js:2 [Violation] Permissions policy violation: unload is not allowed in this document.
+to @ content.js:2
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+framework-10c031ed0ef6cc36.js:1 Unrecognized feature: 'ambient-light-sensor'.
+_ @ framework-10c031ed0ef6cc36.js:1
+framework-10c031ed0ef6cc36.js:1 Unrecognized feature: 'battery'.
+_ @ framework-10c031ed0ef6cc36.js:1
+framework-10c031ed0ef6cc36.js:1 Unrecognized feature: 'execution-while-not-rendered'.
+_ @ framework-10c031ed0ef6cc36.js:1
+framework-10c031ed0ef6cc36.js:1 Unrecognized feature: 'execution-while-out-of-viewport'.
+_ @ framework-10c031ed0ef6cc36.js:1
+framework-10c031ed0ef6cc36.js:1 Unrecognized feature: 'layout-animations'.
+_ @ framework-10c031ed0ef6cc36.js:1
+framework-10c031ed0ef6cc36.js:1 Unrecognized feature: 'legacy-image-formats'.
+_ @ framework-10c031ed0ef6cc36.js:1
+framework-10c031ed0ef6cc36.js:1 Unrecognized feature: 'navigation-override'.
+_ @ framework-10c031ed0ef6cc36.js:1
+framework-10c031ed0ef6cc36.js:1 Unrecognized feature: 'oversized-images'.
+_ @ framework-10c031ed0ef6cc36.js:1
+framework-10c031ed0ef6cc36.js:1 Unrecognized feature: 'publickey-credentials'.
+_ @ framework-10c031ed0ef6cc36.js:1
+framework-10c031ed0ef6cc36.js:1 Unrecognized feature: 'speaker-selection'.
+_ @ framework-10c031ed0ef6cc36.js:1
+framework-10c031ed0ef6cc36.js:1 Unrecognized feature: 'unoptimized-images'.
+_ @ framework-10c031ed0ef6cc36.js:1
+framework-10c031ed0ef6cc36.js:1 Unrecognized feature: 'unsized-media'.
+_ @ framework-10c031ed0ef6cc36.js:1
+framework-10c031ed0ef6cc36.js:1 Unrecognized feature: 'pointer-lock'.
+_ @ framework-10c031ed0ef6cc36.js:1
+framework-10c031ed0ef6cc36.js:1 Allow attribute will take precedence over 'allowfullscreen'.
+_ @ framework-10c031ed0ef6cc36.js:1
+framework-10c031ed0ef6cc36.js:1 Allow attribute will take precedence over 'allowpaymentrequest'.
+_ @ framework-10c031ed0ef6cc36.js:1
+contentScript.bundle.js:1 [CS]  start
+contentScript.bundle.js:1 [CS] [DpScriptPageHandle] enter
+contentScript.bundle.js:1 [CS] dataError =  1
+E.DpScriptPageHandle @ contentScript.bundle.js:1
+contentScript.bundle.js:1 [CS]  start
+contentScript.bundle.js:1 [CS] [DpScriptPageHandle] enter
+contentScript.bundle.js:1 [CS] dataError =  1
+E.DpScriptPageHandle @ contentScript.bundle.js:1
+TISProUrlManualScannerLib.js:1 mouseenter href = https://replit.com/@qy6kr5mqrf/ClaimTrackR
+TISProUrlManualScannerLib.js:1 mouseenter href = https://replit.com/@qy6kr5mqrf/ClaimTrackR
+cdn.segment.com/v1/projects/dMePKGC4BqfBivpe0Hvl8IoPpzSHgjdX/settings:1 
+            
+            
+           Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+_app-d465231ea0c26d62.js:38 Failed to fetch
+(anonymous) @ _app-d465231ea0c26d62.js:38
+_app-d465231ea0c26d62.js:38 [analytics.js] Failed to load Analytics.js TypeError: Failed to fetch
+    at _app-d465231ea0c26d62.js:38:9046
+    at o (sdk.min.js:1:23763)
+    at index.ts:34:26
+    at tslib.es6.js:103:23
+    at Object.next (tslib.es6.js:108:37)
+    at tslib.es6.js:80:8
+    at new Promise (<anonymous>)
+    at u (tslib.es6.js:72:27)
+    at re (index.ts:239:4)
+    at index.ts:338:7
+(anonymous) @ _app-d465231ea0c26d62.js:38
+api.segment.io/v1/m:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+_app-d465231ea0c26d62.js:38 Error sending segment performance metrics TypeError: Failed to fetch
+    at _app-d465231ea0c26d62.js:38:9046
+    at o (sdk.min.js:1:23763)
+    at t.<anonymous> (remote-metrics.ts:138:12)
+    at tslib.es6.js:103:23
+    at Object.next (tslib.es6.js:108:37)
+    at tslib.es6.js:80:8
+    at new Promise (<anonymous>)
+    at u (tslib.es6.js:72:27)
+    at i.148.t.send (sdk.min.js:1:22021)
+    at t.<anonymous> (remote-metrics.ts:125:16)
+    at tslib.es6.js:103:23
+    at Object.next (tslib.es6.js:108:37)
+    at tslib.es6.js:80:8
+    at new Promise (<anonymous>)
+    at u (tslib.es6.js:72:27)
+    at t.flush (sdk.min.js:1:21754)
+    at t.increment (remote-metrics.ts:116:12)
+    at fe (standalone.ts:38:21)
+    at standalone.ts:47:5
+    at tslib.es6.js:103:23
+    at Object.throw (tslib.es6.js:108:37)
+    at u (tslib.es6.js:74:102)
+(anonymous) @ _app-d465231ea0c26d62.js:38
+events.launchdarkly.com/events/diagnostic/62b35a865152ab14c5942820:1 
+            
+            
+           Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+events.launchdarkly.com/events/diagnostic/62b35a865152ab14c5942820:1 
+            
+            
+           Failed to load resource: net::ERR_NAME_NOT_RESOLVED
+workspace_iframe.html:32 Unrecognized feature: 'ambient-light-sensor'.
+workspace_iframe.html:32 Unrecognized feature: 'battery'.
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-not-rendered'.
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+workspace_iframe.html:32 Unrecognized feature: 'layout-animations'.
+workspace_iframe.html:32 Unrecognized feature: 'legacy-image-formats'.
+workspace_iframe.html:32 Unrecognized feature: 'navigation-override'.
+workspace_iframe.html:32 Unrecognized feature: 'oversized-images'.
+workspace_iframe.html:32 Unrecognized feature: 'publickey-credentials'.
+workspace_iframe.html:32 Unrecognized feature: 'speaker-selection'.
+workspace_iframe.html:32 Unrecognized feature: 'unoptimized-images'.
+workspace_iframe.html:32 Unrecognized feature: 'unsized-media'.
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowfullscreen'.
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowpaymentrequest'.
+ [CS]  start
+ [CS] [DpScriptPageHandle] enter
+ [CS] dataError =  1
+E.DpScriptPageHandle @ chrome-extension://f…tScript.bundle.js:1
+ [CS]  start
+ [CS] [DpScriptPageHandle] enter
+ [CS] dataError =  1
+E.DpScriptPageHandle @ chrome-extension://f…tScript.bundle.js:1
+766525a2-daa6-4b8f-b25d-7b26a167e158-00-2ubtcm9ni9c3n.janeway.replit.dev/api/auth/me:1 
+            
+            
+           Failed to load resource: the server responded with a status of 401 (Unauthorized)
+ClaimTrackR:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+ClaimTrackR:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+ClaimTrackR:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+ClaimTrackR:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+ClaimTrackR:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+ClaimTrackR:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+
+                
+          
+          
+          
+         Chrome is moving towards a new experience that allows users to choose to browse without third-party cookies.
