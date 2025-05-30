@@ -15,54 +15,19 @@ import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/login" component={Login} />
-      <Route path="/">
-        <div className="flex min-h-screen bg-gray-50">
-          <Sidebar />
-          <main className="flex-1 ml-64">
-            <header className="bg-white border-b border-gray-200 px-6 py-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-900">ClaimTrackR</h2>
-                  <p className="text-sm text-gray-500 mt-1">Progress Claim Management System</p>
-                </div>
-              </div>
-            </header>
-            <Switch>
-              <Route path="/" component={Dashboard} />
-              <Route path="/projects">
-                <div className="p-6 bg-yellow-200 min-h-screen">
-                  <h1 className="text-4xl font-bold text-black mb-4">PROJECTS PAGE TEST</h1>
-                  <div className="bg-red-500 text-white p-8 rounded mb-4">
-                    <p className="text-2xl">If you can see this, routing is working!</p>
-                  </div>
-                  <div className="bg-green-500 text-white p-4 rounded">
-                    <p>Testing ProjectList component below:</p>
-                  </div>
-                  <ProjectList />
-                </div>
-              </Route>
-              <Route path="/claims">
-                <div className="p-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Claims</h2>
-                  <ProjectList />
-                </div>
-              </Route>
-              <Route path="/reports">
-                <div className="p-6">
-                  <h2 className="text-2xl font-bold text-gray-900">Reports</h2>
-                  <p className="text-gray-500 mt-2">Reports functionality coming soon</p>
-                </div>
-              </Route>
-              <Route path="/project/:id" component={ProjectDetail} />
-              <Route path="/project/:projectId/claim/:claimId" component={ClaimDetail} />
-              <Route component={NotFound} />
-            </Switch>
-          </main>
-        </div>
-      </Route>
-    </Switch>
+    <div style={{ 
+      backgroundColor: 'red', 
+      minHeight: '100vh', 
+      padding: '20px',
+      color: 'white',
+      fontSize: '24px'
+    }}>
+      <h1>EMERGENCY TEST - ClaimTrackR</h1>
+      <p>If you can see this red page, React is working!</p>
+      <div style={{ backgroundColor: 'blue', padding: '20px', margin: '20px 0' }}>
+        This is a basic test without any complex routing or components.
+      </div>
+    </div>
   );
 }
 
