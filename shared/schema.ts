@@ -26,18 +26,31 @@ export const claims = pgTable("claims", {
   projectId: uuid("project_id").notNull().references(() => projects.id),
   number: text("number").notNull(),
   status: text("status").notNull().default("draft"), // draft, pending, approved, rejected
-  percentComplete: decimal("percent_complete", { precision: 5, scale: 2 }).notNull(),
-  previousClaim: decimal("previous_claim", { precision: 12, scale: 2 }).notNull().default("0.00"),
-  thisClaim: decimal("this_claim", { precision: 12, scale: 2 }).notNull(),
-  totalExGst: decimal("total_ex_gst", { precision: 12, scale: 2 }).notNull(),
-  gst: decimal("gst", { precision: 12, scale: 2 }).notNull(),
-  totalIncGst: decimal("total_inc_gst", { precision: 12, scale: 2 }).notNull(),
-  retentionHeld: decimal("retention_held", { precision: 12, scale: 2 }).notNull(),
-  amountDue: decimal("amount_due", { precision: 12, scale: 2 }).notNull(),
+  monthEnding: timestamp("month_ending"),
+  contactPerson: text("contact_person"),
+  subcontractReference: text("subcontract_reference"),
+  totalWorksCompleted: decimal("total_works_completed", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  paymentReceived: decimal("payment_received", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  deductions: decimal("deductions", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  subTotal: decimal("sub_total", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  gst: decimal("gst", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  totalIncGst: decimal("total_inc_gst", { precision: 12, scale: 2 }).notNull().default("0.00"),
   description: text("description"),
-  periodFrom: timestamp("period_from"),
-  periodTo: timestamp("period_to"),
   createdBy: uuid("created_by").notNull().references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const claimItems = pgTable("claim_items", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  claimId: uuid("claim_id").notNull().references(() => claims.id),
+  description: text("description").notNull(),
+  contractValue: decimal("contract_value", { precision: 12, scale: 2 }).notNull(),
+  percentComplete: decimal("percent_complete", { precision: 5, scale: 2 }).notNull().default("0.00"),
+  claimToDate: decimal("claim_to_date", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  previousClaim: decimal("previous_claim", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  thisClaim: decimal("this_claim", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  leftToClaim: decimal("left_to_claim", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  sortOrder: integer("sort_order").notNull().default(0),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -45,8 +58,19 @@ export const variations = pgTable("variations", {
   id: uuid("id").primaryKey().defaultRandom(),
   claimId: uuid("claim_id").notNull().references(() => claims.id),
   description: text("description").notNull(),
-  amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
+  quantity: decimal("quantity", { precision: 10, scale: 2 }).notNull().default("0.00"),
+  rate: decimal("rate", { precision: 12, scale: 2 }).notNull().default("0.00"),
+  variationValue: decimal("variation_value", { precision: 12, scale: 2 }).notNull(),
+  subtotal: decimal("subtotal", { precision: 12, scale: 2 }).notNull().default("0.00"),
   status: text("status").notNull().default("pending"), // pending, approved, rejected
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const credits = pgTable("credits", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  claimId: uuid("claim_id").notNull().references(() => claims.id),
+  description: text("description").notNull(),
+  amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -76,7 +100,17 @@ export const insertClaimSchema = createInsertSchema(claims).omit({
   createdAt: true,
 });
 
+export const insertClaimItemSchema = createInsertSchema(claimItems).omit({
+  id: true,
+  createdAt: true,
+});
+
 export const insertVariationSchema = createInsertSchema(variations).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertCreditSchema = createInsertSchema(credits).omit({
   id: true,
   createdAt: true,
 });
@@ -93,7 +127,11 @@ export type Project = typeof projects.$inferSelect;
 export type InsertProject = z.infer<typeof insertProjectSchema>;
 export type Claim = typeof claims.$inferSelect;
 export type InsertClaim = z.infer<typeof insertClaimSchema>;
+export type ClaimItem = typeof claimItems.$inferSelect;
+export type InsertClaimItem = z.infer<typeof insertClaimItemSchema>;
 export type Variation = typeof variations.$inferSelect;
 export type InsertVariation = z.infer<typeof insertVariationSchema>;
+export type Credit = typeof credits.$inferSelect;
+export type InsertCredit = z.infer<typeof insertCreditSchema>;
 export type Attachment = typeof attachments.$inferSelect;
 export type InsertAttachment = z.infer<typeof insertAttachmentSchema>;

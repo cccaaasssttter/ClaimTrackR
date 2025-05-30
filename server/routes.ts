@@ -7,15 +7,21 @@ import {
   users, 
   projects, 
   claims, 
+  claimItems,
   variations, 
+  credits,
   attachments,
   insertProjectSchema,
   insertClaimSchema,
+  insertClaimItemSchema,
   insertVariationSchema,
+  insertCreditSchema,
   insertAttachmentSchema,
   type Project,
   type Claim,
+  type ClaimItem,
   type Variation,
+  type Credit,
   type Attachment
 } from "@shared/schema";
 
@@ -192,6 +198,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Claim Items routes
+  app.get("/api/claims/:claimId/items", async (req, res) => {
+    try {
+      const { claimId } = req.params;
+      const items = await db
+        .select()
+        .from(claimItems)
+        .where(eq(claimItems.claimId, claimId))
+        .orderBy(claimItems.sortOrder);
+      
+      res.json(items);
+    } catch (error) {
+      console.error("Error fetching claim items:", error);
+      res.status(500).json({ message: "Failed to fetch claim items" });
+    }
+  });
+
+  app.post("/api/claim-items", async (req, res) => {
+    try {
+      const validatedData = insertClaimItemSchema.parse(req.body);
+      
+      const [newItem] = await db
+        .insert(claimItems)
+        .values(validatedData)
+        .returning();
+      
+      res.status(201).json(newItem);
+    } catch (error) {
+      console.error("Error creating claim item:", error);
+      res.status(400).json({ message: "Invalid claim item data" });
+    }
+  });
+
   // Variations routes
   app.get("/api/claims/:claimId/variations", async (req, res) => {
     try {
@@ -222,6 +261,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error creating variation:", error);
       res.status(400).json({ message: "Invalid variation data" });
+    }
+  });
+
+  // Credits routes
+  app.get("/api/claims/:claimId/credits", async (req, res) => {
+    try {
+      const { claimId } = req.params;
+      const claimCredits = await db
+        .select()
+        .from(credits)
+        .where(eq(credits.claimId, claimId))
+        .orderBy(desc(credits.createdAt));
+      
+      res.json(claimCredits);
+    } catch (error) {
+      console.error("Error fetching credits:", error);
+      res.status(500).json({ message: "Failed to fetch credits" });
+    }
+  });
+
+  app.post("/api/credits", async (req, res) => {
+    try {
+      const validatedData = insertCreditSchema.parse(req.body);
+      
+      const [newCredit] = await db
+        .insert(credits)
+        .values(validatedData)
+        .returning();
+      
+      res.status(201).json(newCredit);
+    } catch (error) {
+      console.error("Error creating credit:", error);
+      res.status(400).json({ message: "Invalid credit data" });
     }
   });
 
