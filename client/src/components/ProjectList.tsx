@@ -198,14 +198,18 @@ export const ProjectList: React.FC = () => {
                     <p className="text-sm text-gray-600 mb-4">{project.description}</p>
                   )}
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
                     <div>
-                      <p className="text-xs text-gray-500">Total Value</p>
+                      <p className="text-xs text-gray-500">Contract Value</p>
                       <p className="text-sm font-semibold text-gray-900">${parseFloat(project.totalValue).toLocaleString()}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500">GST Rate</p>
-                      <p className="text-sm font-semibold text-gray-900">{project.gstRate}%</p>
+                      <p className="text-xs text-gray-500">GST</p>
+                      <p className="text-sm font-semibold text-gray-900">${(parseFloat(project.totalValue) * 0.10).toLocaleString()}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Total Value</p>
+                      <p className="text-sm font-semibold text-gray-900">${(parseFloat(project.totalValue) * 1.10).toLocaleString()}</p>
                     </div>
                     <div>
                       <p className="text-xs text-gray-500">Retention</p>
