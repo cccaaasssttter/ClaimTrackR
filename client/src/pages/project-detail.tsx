@@ -91,9 +91,9 @@ export default function ProjectDetail() {
           
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <div className="text-center">
-              <p className="text-sm font-medium text-gray-600">GST Rate</p>
-              <p className="text-2xl font-bold text-gray-900 mt-2">{project.gstRate}%</p>
-              <p className="text-xs text-gray-500 mt-1">Tax rate</p>
+              <p className="text-sm font-medium text-gray-600">GST Amount</p>
+              <p className="text-2xl font-bold text-gray-900 mt-2">${Math.round(parseFloat(project.totalValue) * 0.10).toLocaleString()}</p>
+              <p className="text-xs text-gray-500 mt-1">10% of contract value</p>
             </div>
           </div>
           
