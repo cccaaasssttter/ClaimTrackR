@@ -28,6 +28,38 @@ const client = postgres(connectionString);
 const db = drizzle(client);
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Authentication routes
+  app.post("/api/auth/login", async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      
+      // Simple authentication - in production you'd hash passwords
+      if (email === "admin@claimtrackr.com" && password === "password123") {
+        const user = {
+          id: "00000000-0000-0000-0000-000000000000",
+          email: "admin@claimtrackr.com",
+          role: "admin"
+        };
+        res.json(user);
+      } else {
+        res.status(401).json({ message: "Invalid credentials" });
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      res.status(500).json({ message: "Login failed" });
+    }
+  });
+
+  app.get("/api/auth/me", async (req, res) => {
+    // For demo purposes, return a mock user
+    // In production, you'd check session/token
+    res.status(401).json({ message: "Not authenticated" });
+  });
+
+  app.post("/api/auth/logout", async (req, res) => {
+    res.json({ message: "Logged out successfully" });
+  });
+
   // Projects routes
   app.get("/api/projects", async (req, res) => {
     try {

@@ -2,7 +2,6 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { signInWithEmail } from '@/lib/supabase';
 import { useAuth } from '@/lib/auth';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
@@ -18,7 +17,7 @@ const loginSchema = z.object({
 type LoginForm = z.infer<typeof loginSchema>;
 
 export default function Login() {
-  const { user } = useAuth();
+  const { user, signIn } = useAuth();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
 
@@ -38,12 +37,12 @@ export default function Login() {
 
   const onSubmit = async (data: LoginForm) => {
     try {
-      const { error } = await signInWithEmail(data.email, data.password);
+      const { error } = await signIn(data.email, data.password);
       
       if (error) {
         toast({
           title: 'Error',
-          description: error.message,
+          description: error,
           variant: 'destructive',
         });
         return;
